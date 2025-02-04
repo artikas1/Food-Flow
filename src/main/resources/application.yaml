@@ -5,6 +5,9 @@ server:
 spring:
   config:
     import: optional:file:.env[.properties]
+  liquibase:
+    change-log: db/changelog/db-changelog-master.xml
+    enabled: true
   datasource:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
@@ -14,6 +17,6 @@ spring:
       schema: public
   jpa:
     open-in-view: false
-  liquibase:
-    change-log: classpath:db/changelog/db-changelog-master.xml
-    enabled: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
