@@ -14,8 +14,13 @@ public class UserDaoImpl implements UserDao {
     private final UserRepository userRepository;
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email); //TODO add null check with custom exception
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user); //TODO add null check with custom exception
     }
 
 }
