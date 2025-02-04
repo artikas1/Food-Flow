@@ -2,6 +2,7 @@ package com.accenture.foodflow.food.entity;
 
 import com.accenture.foodflow.food.type.Category;
 import com.accenture.foodflow.food.type.FoodDetails;
+import com.accenture.foodflow.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,13 +28,17 @@ public class Food {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     private LocalDate expiryDate;
 
+    @Enumerated(EnumType.STRING)
     private FoodDetails foodDetails;
 
-    byte[] image;
+    private byte[] image;
 
+    @ManyToOne
+    private User user;
 }
 
