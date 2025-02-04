@@ -1,0 +1,19 @@
+server:
+  servlet:
+    context-path: /api/v1/
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/foodflow
+    hikari:
+      schema: public
+  jpa:
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db-changelog-master.xml
+    enabled: true
