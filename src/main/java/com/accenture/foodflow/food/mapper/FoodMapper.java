@@ -1,35 +1,75 @@
 package com.accenture.foodflow.food.mapper;
 
+import com.accenture.foodflow.food.dto.FoodRequestDto;
 import com.accenture.foodflow.food.dto.FoodResponseDto;
-import com.accenture.foodflow.food.dto.SaveFoodRequestDto;
 import com.accenture.foodflow.food.entity.Food;
-import org.springframework.context.annotation.Configuration;
+import com.accenture.foodflow.food.type.Category;
+import com.accenture.foodflow.food.type.FoodDetails;
+import com.accenture.foodflow.user.entity.User;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDate;
 
 @Component
 public class FoodMapper {
 
-    public Food toEntity(SaveFoodRequestDto saveFoodRequestDto) {
-        Food food = new Food();
-        food.setTitle(saveFoodRequestDto.getTitle());
-        food.setDescription(saveFoodRequestDto.getDescription());
-        food.setCategory(saveFoodRequestDto.getCategory());
-        food.setExpiryDate(saveFoodRequestDto.getExpiryDate());
-        food.setFoodDetails(saveFoodRequestDto.getFoodDetails());
-        food.setImage(saveFoodRequestDto.getImage());
-        return food;
+    public Food toEntity(FoodRequestDto foodRequestDto, User user) {
+        return Food.builder()
+                .title(foodRequestDto.getTitle())
+                .description(foodRequestDto.getDescription())
+                .category(foodRequestDto.getCategory())
+                .createdAt(LocalDate.now())
+                .expiryDate(foodRequestDto.getExpiryDate())
+                .foodDetails(foodRequestDto.getFoodDetails())
+                .image(foodRequestDto.getImage())
+                .user(user)
+                .build();
     }
 
-    public FoodResponseDto toFoodResponseDto(Food food) {
-        FoodResponseDto foodResponseDto = new FoodResponseDto();
-        foodResponseDto.setId(food.getId());
-        foodResponseDto.setTitle(food.getTitle());
-        foodResponseDto.setDescription(food.getDescription());
-        foodResponseDto.setCategory(food.getCategory());
-        foodResponseDto.setExpiryDate(food.getExpiryDate());
-        foodResponseDto.setFoodDetails(food.getFoodDetails());
-        foodResponseDto.setImage(food.getImage());
-        return foodResponseDto;
+    public FoodResponseDto toResponseDto(Food food) {
+        return FoodResponseDto.builder()
+                .id(food.getId())
+                .title(food.getTitle())
+                .description(food.getDescription())
+                .category(food.getCategory())
+                .createdAt(food.getCreatedAt())
+                .expiryDate(food.getExpiryDate())
+                .foodDetails(food.getFoodDetails())
+                .image(food.getImage())
+                .userId(food.getUser().getId())
+                .build();
+    }
+
+    public FoodRequestDto toRequestDto(String title,
+                                       String description,
+                                       Category category,
+                                       LocalDate expiryDate,
+                                       FoodDetails foodDetails,
+                                       MultipartFile image) throws IOException {
+        return FoodRequestDto.builder()
+                .title(title)
+                .description(description)
+                .category(category)
+                .expiryDate(expiryDate)
+                .foodDetails(foodDetails)
+                .image(image.getBytes())
+                .build();
+    }
+
+    public FoodRequestDto toRequestDto(String title,
+                                       String description,
+                                       Category category,
+                                       FoodDetails foodDetails,
+                                       MultipartFile image) throws IOException {
+        return FoodRequestDto.builder()
+                .title(title)
+                .description(description)
+                .category(category)
+                .foodDetails(foodDetails)
+                .image(image.getBytes())
+                .build();
     }
 
 }

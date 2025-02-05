@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveFoodRequestDto {
+public class FoodRequestDto {
 
     @NotNull(message = "Title is required")
     private String title;

@@ -4,4 +4,5 @@ public enum FoodDetails {
     SPICY,
     LACTOSE_FREE,
     HALLAL
+
 }

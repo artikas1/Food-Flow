@@ -18,12 +18,10 @@ public class FoodResponseDto {
     private String title;
     private String description;
     private Category category;
+    private LocalDate createdAt;
     private LocalDate expiryDate;
     private FoodDetails foodDetails;
     private byte[] image;
     private UUID userId;
 
-    //location
-    //createdAt
-    //updatedAt
 }

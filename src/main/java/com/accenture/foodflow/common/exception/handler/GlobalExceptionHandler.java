@@ -1,6 +1,10 @@
 package com.accenture.foodflow.common.exception.handler;
 
+import com.accenture.foodflow.common.exception.exceptions.FoodBadRequestException;
+import com.accenture.foodflow.common.exception.exceptions.FoodNotFoundException;
+import com.accenture.foodflow.common.exception.exceptions.InvalidPageException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
+import com.accenture.foodflow.common.exception.exceptions.UserNotAuthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleInvalidUserException(InvalidUserException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleFoodNotFoundException(FoodNotFoundException ex) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleFoodBadRequestException(FoodBadRequestException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleUserNotAuthorizedException(UserNotAuthorizedException ex) {
+        return buildErrorResponse(HttpStatus.FORBIDDEN, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleInvalidPageException(InvalidPageException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     private ResponseEntity<Map<String, String>> buildErrorResponse(HttpStatus status, String message) {

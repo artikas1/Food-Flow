@@ -9,5 +9,6 @@ public enum Category {
     GRAINS_AND_CEREALS,
     BAKED_GOODS,
     SNACKS,
-    BEVERAGES
+    BEVERAGES;
+
 }
