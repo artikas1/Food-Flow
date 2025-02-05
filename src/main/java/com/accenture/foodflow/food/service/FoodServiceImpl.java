@@ -20,6 +20,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class FoodServiceImpl implements FoodService {
 
+    public static final String YOU_ARE_NOT_AUTHORIZED_TO_PERFORM_THIS_ACTION = "You are not authorized to perform this action";
+
     private final FoodDao foodDao;
     private final FoodDataIntegrity foodDataIntegrity;
     private final FoodMapper foodMapper;
@@ -82,7 +84,7 @@ public class FoodServiceImpl implements FoodService {
 
     private void checkAuthorization(User user, Food food) {
         if (!food.getUser().getId().equals(user.getId())) {
-            throw new UserNotAuthorizedException("You are not authorized to perform this action");
+            throw new UserNotAuthorizedException(YOU_ARE_NOT_AUTHORIZED_TO_PERFORM_THIS_ACTION);
         }
     }
 

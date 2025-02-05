@@ -1,5 +1,6 @@
 package com.accenture.foodflow.food.controller;
 
+import com.accenture.foodflow.common.exception.exceptions.InvalidPageException;
 import com.accenture.foodflow.food.dto.FoodResponseDto;
 import com.accenture.foodflow.food.mapper.FoodMapper;
 import com.accenture.foodflow.food.service.FoodService;
@@ -30,6 +31,8 @@ import java.util.UUID;
 public class FoodController {
 
     private static final int MAX_PAGE_SIZE = 50;
+    public static final String INVALID_PAGE_OR_SIZE = "Invalid page or size";
+
     private final FoodService foodService;
     private final FoodMapper foodMapper;
 
@@ -88,7 +91,7 @@ public class FoodController {
 
     private void invalidatePageAndSize(int page, int size) {
         if (page < 0 || size < 0 || size > MAX_PAGE_SIZE) {
-            throw new IllegalArgumentException("Invalid page or size");
+            throw new InvalidPageException(INVALID_PAGE_OR_SIZE);
         }
     }
 
