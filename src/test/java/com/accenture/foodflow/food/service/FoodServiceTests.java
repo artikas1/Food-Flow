@@ -17,8 +17,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -54,6 +58,7 @@ class FoodServiceTests {
     @BeforeEach
     void setUp() {
         user = User.builder()
+                .id(UUID.randomUUID())
                 .email("email")
                 .password("password")
                 .firstName("firstName")
@@ -63,6 +68,7 @@ class FoodServiceTests {
                 .build();
 
         food = Food.builder()
+                .id(UUID.randomUUID())
                 .title("title")
                 .description("description")
                 .expiryDate(LocalDate.now().plusMonths(1))
@@ -152,6 +158,80 @@ class FoodServiceTests {
         verify(foodDataIntegrity).validateId(null);
         verify(foodDao, never()).getFoodById(null);
         verify(foodMapper, never()).toResponseDto(null);
+    }
+
+    @Test
+    void testUpdateFoodById() {
+        var id = food.getId();
+        when(authenticationService.getAuthenticatedUser()).thenReturn(user);
+        when(foodDao.getFoodById(id)).thenReturn(food);
+        when(foodDao.saveFood(food)).thenReturn(food);
+        when(foodMapper.toResponseDto(food)).thenReturn(foodResponseDto);
+
+        var updatedFood = foodService.updateFoodById(id, foodRequestDto);
+
+        assertNotNull(updatedFood);
+        assertEquals(foodResponseDto, updatedFood);
+
+        verify(foodDataIntegrity).validateId(id);
+        verify(authenticationService).getAuthenticatedUser();
+        verify(foodDao).getFoodById(id);
+        verify(foodMapper).toResponseDto(food);
+    }
+
+    @Test
+    void testUpdateFoodByIdWhenIdIsNull() {
+        doThrow(FoodBadRequestException.class).when(foodDataIntegrity).validateId(null);
+
+        assertThrows(FoodBadRequestException.class, () -> foodService.updateFoodById(null, foodRequestDto));
+
+        verify(foodDataIntegrity).validateId(null);
+        verify(authenticationService, never()).getAuthenticatedUser();
+        verify(foodDao, never()).getFoodById(null);
+        verify(foodMapper, never()).toResponseDto(null);
+    }
+
+    @Test
+    void testDeleteFoodById() {
+        var id = food.getId();
+        when(authenticationService.getAuthenticatedUser()).thenReturn(user);
+        when(foodDao.getFoodById(id)).thenReturn(food);
+
+        foodService.deleteFoodById(id);
+
+        verify(foodDataIntegrity).validateId(id);
+        verify(authenticationService).getAuthenticatedUser();
+        verify(foodDao).getFoodById(id);
+        verify(foodDao).deleteFood(id);
+    }
+
+    @Test
+    void deleteFoodByIdWhenIdIsNull() {
+        doThrow(FoodBadRequestException.class).when(foodDataIntegrity).validateId(null);
+
+        assertThrows(FoodBadRequestException.class, () -> foodService.deleteFoodById(null));
+
+        verify(foodDataIntegrity).validateId(null);
+        verify(authenticationService, never()).getAuthenticatedUser();
+        verify(foodDao, never()).getFoodById(null);
+        verify(foodDao, never()).deleteFood(null);
+    }
+
+    @Test
+    void testGetAllFoods() {
+        var pageable = PageRequest.of(0, 10);
+        var foodsPage = new PageImpl<>(List.of(food), pageable, 1);
+
+        when(foodDao.getAllFoods(pageable)).thenReturn(foodsPage);
+        when(foodMapper.toResponseDto(food)).thenReturn(foodResponseDto);
+
+        var foods = foodService.getAllFoods(pageable);
+
+        assertNotNull(foods);
+        assertEquals(1, foods.getTotalElements());
+
+        verify(foodDao).getAllFoods(pageable);
+        verify(foodMapper).toResponseDto(food);
     }
 
 }
