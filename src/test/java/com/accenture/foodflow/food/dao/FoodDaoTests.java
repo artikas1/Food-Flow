@@ -37,11 +37,10 @@ class FoodDaoTests {
     private UserDao userDao;
 
     private Food food;
-    private User user;
 
     @BeforeEach
     void setUp() {
-        user = User.builder()
+        User user = User.builder()
                 .email("email")
                 .password("password")
                 .firstName("firstName")
@@ -97,7 +96,7 @@ class FoodDaoTests {
     }
 
     @Test
-    void deleteFood() {
+    void testDeleteFood() {
         var foodDaoMock = Mockito.mock(FoodDao.class);
         var savedFood = foodDao.saveFood(food);
         foodDaoMock.deleteFood(savedFood.getId());
@@ -107,7 +106,7 @@ class FoodDaoTests {
     }
 
     @Test
-    void getAllFoods() {
+    void testGetAllFoods() {
         var foodDaoMock = Mockito.mock(FoodDao.class);
         var savedFood = foodDao.saveFood(food);
         var foodsPage = new PageImpl<>(List.of(savedFood), PageRequest.of(0, 10), 1);
