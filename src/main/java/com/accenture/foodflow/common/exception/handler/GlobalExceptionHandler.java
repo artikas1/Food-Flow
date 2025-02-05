@@ -20,11 +20,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
+
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
+
         return errors;
     }
 
@@ -35,7 +37,9 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<Map<String, String>> buildErrorResponse(HttpStatus status, String message) {
         Map<String, String> response = new HashMap<>();
+
         response.put("error", message);
+
         return ResponseEntity.status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response);
