@@ -1,5 +1,6 @@
 package com.accenture.foodflow.user.dao;
 
+import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
 import com.accenture.foodflow.user.entity.User;
 import com.accenture.foodflow.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,12 +16,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email); //TODO add null check with custom exception
+        if(email == null) {
+            throw new InvalidUserException("Email cannot be null");
+        }
+
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public void saveUser(User user) {
-        userRepository.save(user); //TODO add null check with custom exception
+        if(user == null) {
+            throw new InvalidUserException("User cannot be null");
+        }
+
+        userRepository.save(user);
     }
 
 }

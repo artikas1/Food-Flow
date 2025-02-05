@@ -5,6 +5,7 @@ import com.accenture.foodflow.auth.dto.LoginResponseDto;
 import com.accenture.foodflow.auth.dto.RegisterRequestDto;
 import com.accenture.foodflow.auth.mapper.AuthenticationMapper;
 import com.accenture.foodflow.auth.service.jwt.JwtService;
+import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
 import com.accenture.foodflow.user.dao.UserDao;
 import com.accenture.foodflow.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class AuthenticationService {
         var existingUser = userDao.findByEmail(registerRequestDto.getEmail());
 
         if (existingUser.isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new InvalidUserException("User already exists");
         }
 
         userDao.saveUser(authenticationMapper.toUser(registerRequestDto));
@@ -38,7 +39,7 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(), loginRequestDto.getPassword()));
 
         var user = userDao.findByEmail(loginRequestDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new InvalidUserException("User not found"));
 
         var jwtToken = jwtService.generateToken(user);
 
@@ -51,12 +52,12 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("User not authenticated");
+            throw new InvalidUserException("User not authenticated");
         }
 
         Object principal = authentication.getPrincipal();
         if (!(principal instanceof User user)) {
-            throw new IllegalStateException("Authenticated principal is not a User.");
+            throw new InvalidUserException("Authenticated principal is not a User.");
         }
 
         return user;
