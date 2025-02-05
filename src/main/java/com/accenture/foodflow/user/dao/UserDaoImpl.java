@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +22,15 @@ public class UserDaoImpl implements UserDao {
         }
 
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User>  findUserById(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+
+        return userRepository.findById(id);
     }
 
     @Override
