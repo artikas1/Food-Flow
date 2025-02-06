@@ -2,8 +2,10 @@ package com.accenture.foodflow.common.exception.handler;
 
 import com.accenture.foodflow.common.exception.exceptions.FoodBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.FoodNotFoundException;
+import com.accenture.foodflow.common.exception.exceptions.FoodReservationBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidPageException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
+import com.accenture.foodflow.common.exception.exceptions.UserBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.UserNotAuthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,6 +58,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleInvalidPageException(InvalidPageException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleFoodReservationBadRequestException(FoodReservationBadRequestException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleUserBadRequestException(UserBadRequestException ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
