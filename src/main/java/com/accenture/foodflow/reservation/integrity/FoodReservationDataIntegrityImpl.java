@@ -14,6 +14,7 @@ public class FoodReservationDataIntegrityImpl implements FoodReservationDataInte
     public static final String ID_CANNOT_BE_NULL = "Food reservation id cannot be null";
     public static final String FOOD_RESERVATION_CANNOT_BE_NULL = "Food reservation cannot be null";
     public static final String USER_CANNOT_RESERVE_THEIR_OWN_FOOD = "User cannot reserve their own food";
+    public static final String FOOD_IS_NOT_AVAILABLE = "Food is not available";
 
     @Override
     public void validateId(UUID id) {
@@ -26,6 +27,13 @@ public class FoodReservationDataIntegrityImpl implements FoodReservationDataInte
     public void validateFoodReservation(FoodReservation foodReservation) {
         if(foodReservation == null) {
             throw new FoodReservationBadRequestException(FOOD_RESERVATION_CANNOT_BE_NULL);
+        }
+    }
+
+    @Override
+    public void checkIfFoodIsAvailable(Food food) {
+        if(!food.isAvailable()) {
+            throw new FoodReservationBadRequestException(FOOD_IS_NOT_AVAILABLE);
         }
     }
 

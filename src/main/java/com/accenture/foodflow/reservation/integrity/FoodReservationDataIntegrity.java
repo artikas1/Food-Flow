@@ -10,6 +10,7 @@ public interface FoodReservationDataIntegrity {
 
     void validateId(UUID id);
     void validateFoodReservation(FoodReservation foodReservation);
+    void checkIfFoodIsAvailable(Food food);
     void checkIfUserIsTheOwnerOfFood(User user, Food food);
 
 }

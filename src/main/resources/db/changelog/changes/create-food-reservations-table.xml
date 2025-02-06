@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="3" author="Ugnius">
+        <createTable tableName="food_reservations">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="food_id" type="uuid">
+                <constraints nullable="false"
+                             foreignKeyName="fk_food_reservations_food"
+                             references="foods(id)"/>
+            </column>
+            <column name="user_id" type="uuid">
+                <constraints nullable="false"
+                             foreignKeyName="fk_food_reservations_user"
+                             references="users(id)"/>
+            </column>
+            <column name="reservation_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiration_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_canceled" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

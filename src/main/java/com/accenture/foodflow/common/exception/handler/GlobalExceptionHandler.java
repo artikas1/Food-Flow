@@ -3,6 +3,7 @@ package com.accenture.foodflow.common.exception.handler;
 import com.accenture.foodflow.common.exception.exceptions.FoodBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.FoodNotFoundException;
 import com.accenture.foodflow.common.exception.exceptions.FoodReservationBadRequestException;
+import com.accenture.foodflow.common.exception.exceptions.FoodReservationNotFoundException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidPageException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
 import com.accenture.foodflow.common.exception.exceptions.UserBadRequestException;
@@ -69,6 +70,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleUserBadRequestException(UserBadRequestException ex) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleFoodReservationNotFoundException(FoodReservationNotFoundException ex) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
     private ResponseEntity<Map<String, String>> buildErrorResponse(HttpStatus status, String message) {
