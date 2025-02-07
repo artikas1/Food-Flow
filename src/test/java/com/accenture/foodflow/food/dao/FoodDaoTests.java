@@ -60,6 +60,7 @@ class FoodDaoTests {
                 .title("title")
                 .description("description")
                 .expiryDate(date)
+                .city("city")
                 .createdAt(LocalDate.now())
                 .category(Category.FRUITS)
                 .foodDetails(null)
