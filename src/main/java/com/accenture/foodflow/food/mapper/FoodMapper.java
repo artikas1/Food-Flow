@@ -8,9 +8,10 @@ import com.accenture.foodflow.food.type.FoodDetails;
 import com.accenture.foodflow.user.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class FoodMapper {
@@ -70,6 +71,16 @@ public class FoodMapper {
                 .foodDetails(foodDetails)
                 .image(image.getBytes())
                 .build();
+    }
+
+    public List<FoodResponseDto> toDto(List<Food> foods) {
+        if (foods == null || foods.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return foods.stream()
+                .map(this::toResponseDto)
+                .toList();
     }
 
 }
