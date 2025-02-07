@@ -18,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor
 public class AppConfig {
 
+    public static final String USER_NOT_FOUND = "User not found";
+
     private final UserDao userDao;
 
     @Bean
@@ -31,7 +33,7 @@ public class AppConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         return email -> userDao.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException(USER_NOT_FOUND));
     }
 
     @Bean

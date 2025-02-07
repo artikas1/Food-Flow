@@ -20,9 +20,15 @@
         <maven.compiler.version>3.13.0</maven.compiler.version>
         <spring.maven.plugin>3.4.1</spring.maven.plugin>
         <lombok.version>1.18.36</lombok.version>
+        <liquibase.version>4.31.0</liquibase.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>

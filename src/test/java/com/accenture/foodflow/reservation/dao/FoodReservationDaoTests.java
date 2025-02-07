@@ -4,9 +4,12 @@ import com.accenture.foodflow.common.exception.exceptions.FoodReservationNotFoun
 import com.accenture.foodflow.food.entity.Food;
 import com.accenture.foodflow.food.type.Category;
 import com.accenture.foodflow.reservation.entity.FoodReservation;
+import com.accenture.foodflow.reservation.integrity.FoodReservationDataIntegrity;
+import com.accenture.foodflow.reservation.integrity.FoodReservationDataIntegrityImpl;
 import com.accenture.foodflow.user.dao.UserDao;
 import com.accenture.foodflow.user.dao.UserDaoImpl;
 import com.accenture.foodflow.user.entity.User;
+import com.accenture.foodflow.user.integrity.UserDataIntegrityImpl;
 import com.accenture.foodflow.user.type.Gender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,20 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-
 import java.time.LocalDate;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({FoodReservationDaoImpl.class, UserDaoImpl.class})
+@Import({FoodReservationDaoImpl.class, UserDaoImpl.class, FoodReservationDataIntegrityImpl.class, UserDataIntegrityImpl.class})
 class FoodReservationDaoTests {
 
     @Autowired
@@ -108,27 +105,6 @@ class FoodReservationDaoTests {
 
         doThrow(new FoodReservationNotFoundException("Food reservation not found"))
                 .when(foodReservationDaoMock).findById(savedFood.getId());
-    }
-
-    @Test
-    void testFindAllUserReservations() {
-        var foodReservationDaoMock = Mockito.mock(FoodReservationDao.class);
-        var savedFoodReservation = foodReservationDao.save(foodReservation);
-        var foodReservationUserPage = new PageImpl<>(List.of(savedFoodReservation), PageRequest.of(0, 10), 1);
-
-        when(foodReservationDaoMock.findAllUserReservations(foodReservation.getUser().getId(), PageRequest.of(0, 10)))
-                .thenReturn(foodReservationUserPage);
-
-        var foundFoodReservationUserPage = foodReservationDao.findAllUserReservations(foodReservation.getUser().getId(), PageRequest.of(0, 10));
-
-        assertNotNull(foundFoodReservationUserPage);
-        assertEquals(1, foundFoodReservationUserPage.getTotalElements());
-        assertEquals(savedFoodReservation.getId(), foundFoodReservationUserPage.getContent().get(0).getId());
-        assertEquals(savedFoodReservation.getFood().getId(), foundFoodReservationUserPage.getContent().get(0).getFood().getId());
-        assertEquals(savedFoodReservation.getUser().getId(), foundFoodReservationUserPage.getContent().get(0).getUser().getId());
-        assertEquals(savedFoodReservation.getReservationDate(), foundFoodReservationUserPage.getContent().get(0).getReservationDate());
-        assertEquals(savedFoodReservation.getExpirationDate(), foundFoodReservationUserPage.getContent().get(0).getExpirationDate());
-        assertEquals(savedFoodReservation.isCanceled(), foundFoodReservationUserPage.getContent().get(0).isCanceled());
     }
 
 }

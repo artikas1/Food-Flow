@@ -5,10 +5,10 @@ import com.accenture.foodflow.common.exception.exceptions.FoodNotFoundException;
 import com.accenture.foodflow.common.exception.exceptions.FoodReservationBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.FoodReservationNotFoundException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidPageException;
-import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
 import com.accenture.foodflow.common.exception.exceptions.OffsetRequestException;
 import com.accenture.foodflow.common.exception.exceptions.UserBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.UserNotAuthorizedException;
+import com.accenture.foodflow.common.exception.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,18 +27,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-
         return errors;
     }
 
     @ExceptionHandler
-    public ResponseEntity<Map<String, String>> handleInvalidUserException(InvalidUserException ex) {
+    public ResponseEntity<Map<String, String>> handleInvalidUserException(EntityNotFoundException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
@@ -86,9 +83,7 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<Map<String, String>> buildErrorResponse(HttpStatus status, String message) {
         Map<String, String> response = new HashMap<>();
-
         response.put("error", message);
-
         return ResponseEntity.status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(response);

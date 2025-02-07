@@ -1,6 +1,6 @@
 package com.accenture.foodflow.user.dao;
 
-import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
+import com.accenture.foodflow.common.exception.exceptions.EntityNotFoundException;
 import com.accenture.foodflow.user.entity.User;
 import com.accenture.foodflow.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> findByEmail(String email) {
         if(email == null) {
-            throw new InvalidUserException("Email cannot be null");
+            throw new EntityNotFoundException("Email cannot be null");
         }
 
         return userRepository.findByEmail(email);
@@ -36,10 +36,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void saveUser(User user) {
         if(user == null) {
-            throw new InvalidUserException("User cannot be null");
+            throw new EntityNotFoundException("User cannot be null");
         }
 
         userRepository.save(user);
+    }
+
+    @Override
+    public Optional<User> findById(UUID id) {
+        if (id == null) {
+            throw new EntityNotFoundException("Id cannot be null");
+        }
+
+        return userRepository.findById(id);
     }
 
 }
