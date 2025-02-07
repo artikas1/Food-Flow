@@ -21,6 +21,9 @@
             <column name="is_available" type="bool">
                 <constraints nullable="false"/>
             </column>
+            <column name="city" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="date">
                 <constraints nullable="false"/>
             </column>
