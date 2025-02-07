@@ -7,6 +7,7 @@ import com.accenture.foodflow.food.repository.FoodRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -45,4 +46,10 @@ public class FoodDaoImpl implements FoodDao {
     public Page<Food> getAllFoods(Pageable pageable) {
         return foodRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Food> findAll(Specification<Food> specification, Pageable pageable) {
+        return foodRepository.findAll(specification, pageable);
+    }
+
 }

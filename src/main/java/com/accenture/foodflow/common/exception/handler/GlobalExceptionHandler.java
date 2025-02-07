@@ -6,6 +6,7 @@ import com.accenture.foodflow.common.exception.exceptions.FoodReservationBadRequ
 import com.accenture.foodflow.common.exception.exceptions.FoodReservationNotFoundException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidPageException;
 import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
+import com.accenture.foodflow.common.exception.exceptions.OffsetRequestException;
 import com.accenture.foodflow.common.exception.exceptions.UserBadRequestException;
 import com.accenture.foodflow.common.exception.exceptions.UserNotAuthorizedException;
 import org.springframework.http.HttpStatus;
@@ -76,6 +77,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleFoodReservationNotFoundException(FoodReservationNotFoundException ex) {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
+
+    @ExceptionHandler
+    public ResponseEntity<Map<String, String>> handleInvalidPageException(OffsetRequestException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
 
     private ResponseEntity<Map<String, String>> buildErrorResponse(HttpStatus status, String message) {
         Map<String, String> response = new HashMap<>();
