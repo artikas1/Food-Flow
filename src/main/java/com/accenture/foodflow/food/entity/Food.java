@@ -44,6 +44,8 @@ public class Food {
 
     private boolean isAvailable;
 
+    private String city;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 

@@ -40,12 +40,13 @@ public class FoodController {
     public ResponseEntity<FoodResponseDto> saveFood(@RequestParam("title") String title,
                                                     @RequestParam("description") String description,
                                                     @RequestParam(value = "category", required = false) Category category,
+                                                    @RequestParam("city") String city,
                                                     @RequestParam("expiryDate") LocalDate expiryDate,
                                                     @RequestParam(value = "foodDetails", required = false) FoodDetails foodDetails,
                                                     @RequestParam(value = "image", required = false) MultipartFile image) {
 
         try {
-            var request = foodMapper.toRequestDto(title, description, category, expiryDate, foodDetails, image);
+            var request = foodMapper.toRequestDto(title, description, category, city, expiryDate, foodDetails, image);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(foodService.saveFood(request));
         } catch (IOException e) {

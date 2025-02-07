@@ -73,6 +73,7 @@ class FoodServiceTests {
                 .description("description")
                 .expiryDate(LocalDate.now().plusMonths(1))
                 .createdAt(LocalDate.now())
+                .city("city")
                 .category(Category.FRUITS)
                 .foodDetails(null)
                 .user(user)
@@ -84,6 +85,7 @@ class FoodServiceTests {
                 .description("description")
                 .expiryDate(LocalDate.now().plusMonths(1))
                 .category(Category.FRUITS)
+                .city("city")
                 .foodDetails(null)
                 .image(null)
                 .build();
@@ -93,6 +95,7 @@ class FoodServiceTests {
                 .title(food.getTitle())
                 .description(food.getDescription())
                 .expiryDate(food.getExpiryDate())
+                .city(food.getCity())
                 .createdAt(food.getCreatedAt())
                 .category(food.getCategory())
                 .foodDetails(food.getFoodDetails())

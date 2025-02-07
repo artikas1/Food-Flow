@@ -20,6 +20,7 @@ public class FoodResponseDto {
     private Category category;
     private LocalDate createdAt;
     private boolean isAvailable;
+    private String city;
     private LocalDate expiryDate;
     private FoodDetails foodDetails;
     private byte[] image;

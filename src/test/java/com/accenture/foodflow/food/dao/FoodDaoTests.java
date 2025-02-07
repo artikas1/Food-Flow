@@ -2,6 +2,8 @@ package com.accenture.foodflow.food.dao;
 
 import com.accenture.foodflow.common.exception.exceptions.FoodNotFoundException;
 import com.accenture.foodflow.food.entity.Food;
+import com.accenture.foodflow.food.integrity.FoodDataIntegrity;
+import com.accenture.foodflow.food.integrity.FoodDataIntegrityImpl;
 import com.accenture.foodflow.food.type.Category;
 import com.accenture.foodflow.user.dao.UserDao;
 import com.accenture.foodflow.user.dao.UserDaoImpl;
@@ -27,7 +29,7 @@ import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({FoodDaoImpl.class, UserDaoImpl.class})
+@Import({FoodDaoImpl.class, UserDaoImpl.class, FoodDataIntegrityImpl.class})
 class FoodDaoTests {
 
     @Autowired
@@ -35,6 +37,9 @@ class FoodDaoTests {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private FoodDataIntegrity foodDataIntegrity;
 
     private Food food;
 
@@ -71,6 +76,7 @@ class FoodDaoTests {
         assertEquals(food.getTitle(), savedFood.getTitle());
         assertEquals(food.getDescription(), savedFood.getDescription());
         assertEquals(food.getExpiryDate(), savedFood.getExpiryDate());
+        assertEquals(food.getCity(), savedFood.getCity());
         assertEquals(food.getCreatedAt(), savedFood.getCreatedAt());
         assertEquals(food.getCategory(), savedFood.getCategory());
         assertEquals(food.getFoodDetails(), savedFood.getFoodDetails());
@@ -88,6 +94,7 @@ class FoodDaoTests {
         assertEquals(savedFood.getTitle(), foundFood.getTitle());
         assertEquals(savedFood.getDescription(), foundFood.getDescription());
         assertEquals(savedFood.getExpiryDate(), foundFood.getExpiryDate());
+        assertEquals(savedFood.getCity(), foundFood.getCity());
         assertEquals(savedFood.getCreatedAt(), foundFood.getCreatedAt());
         assertEquals(savedFood.getCategory(), foundFood.getCategory());
         assertEquals(savedFood.getFoodDetails(), foundFood.getFoodDetails());
@@ -121,6 +128,7 @@ class FoodDaoTests {
         assertEquals(savedFood.getTitle(), foods.getContent().get(0).getTitle());
         assertEquals(savedFood.getDescription(), foods.getContent().get(0).getDescription());
         assertEquals(savedFood.getExpiryDate(), foods.getContent().get(0).getExpiryDate());
+        assertEquals(savedFood.getCity(), foods.getContent().get(0).getCity());
         assertEquals(savedFood.getCreatedAt(), foods.getContent().get(0).getCreatedAt());
         assertEquals(savedFood.getCategory(), foods.getContent().get(0).getCategory());
         assertEquals(savedFood.getFoodDetails(), foods.getContent().get(0).getFoodDetails());
