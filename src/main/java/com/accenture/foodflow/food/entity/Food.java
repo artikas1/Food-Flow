@@ -42,6 +42,10 @@ public class Food {
 
     private LocalDate createdAt;
 
+    private boolean isAvailable;
+
+    private String city;
+
     @Enumerated(EnumType.STRING)
     private Category category;
 

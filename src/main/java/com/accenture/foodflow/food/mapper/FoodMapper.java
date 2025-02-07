@@ -21,6 +21,8 @@ public class FoodMapper {
                 .description(foodRequestDto.getDescription())
                 .category(foodRequestDto.getCategory())
                 .createdAt(LocalDate.now())
+                .isAvailable(true)
+                .city(foodRequestDto.getCity())
                 .expiryDate(foodRequestDto.getExpiryDate())
                 .foodDetails(foodRequestDto.getFoodDetails())
                 .image(foodRequestDto.getImage())
@@ -35,6 +37,8 @@ public class FoodMapper {
                 .description(food.getDescription())
                 .category(food.getCategory())
                 .createdAt(food.getCreatedAt())
+                .isAvailable(food.isAvailable())
+                .city(food.getCity())
                 .expiryDate(food.getExpiryDate())
                 .foodDetails(food.getFoodDetails())
                 .image(food.getImage())
@@ -45,6 +49,7 @@ public class FoodMapper {
     public FoodRequestDto toRequestDto(String title,
                                        String description,
                                        Category category,
+                                       String city,
                                        LocalDate expiryDate,
                                        FoodDetails foodDetails,
                                        MultipartFile image) throws IOException {
@@ -53,6 +58,7 @@ public class FoodMapper {
                 .description(description)
                 .category(category)
                 .expiryDate(expiryDate)
+                .city(city)
                 .foodDetails(foodDetails)
                 .image(image.getBytes())
                 .build();

@@ -3,6 +3,7 @@ package com.accenture.foodflow.food.dto;
 import com.accenture.foodflow.food.type.Category;
 import com.accenture.foodflow.food.type.FoodDetails;
 import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,11 +16,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class FoodRequestDto {
 
-    @NotNull(message = "Title is required")
+    @NotBlank(message = "Title is required")
     private String title;
 
     @Nullable
     private String description;
+
+    @NotBlank
+    private String city;
 
     @NotNull(message = "Category is required")
     private Category category;

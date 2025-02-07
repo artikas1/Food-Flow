@@ -6,6 +6,9 @@ import com.accenture.foodflow.auth.dto.RegisterRequestDto;
 import com.accenture.foodflow.auth.mapper.AuthenticationMapper;
 import com.accenture.foodflow.auth.service.jwt.JwtService;
 import com.accenture.foodflow.common.exception.exceptions.InvalidUserException;
+import com.accenture.foodflow.common.exception.exceptions.UserNotAuthorizedException;
+import com.accenture.foodflow.food.entity.Food;
+import com.accenture.foodflow.reservation.entity.FoodReservation;
 import com.accenture.foodflow.user.dao.UserDao;
 import com.accenture.foodflow.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -18,6 +21,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AuthenticationService {
+
+    private static final String YOU_ARE_NOT_AUTHORIZED_TO_PERFORM_THIS_ACTION = "You are not authorized to perform this action";
 
     private final UserDao userDao;
     private final AuthenticationMapper authenticationMapper;
@@ -51,7 +56,7 @@ public class AuthenticationService {
     public User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication == null || !authentication.isAuthenticated()) {
+        if (authentication == null || !authentication.isAuthenticated()) {
             throw new InvalidUserException("User not authenticated");
         }
 
@@ -61,6 +66,18 @@ public class AuthenticationService {
         }
 
         return user;
+    }
+
+    public void checkAuthorizationBetweenUserAndFood(User user, Food food) {
+        if (!food.getUser().getId().equals(user.getId())) {
+            throw new UserNotAuthorizedException(YOU_ARE_NOT_AUTHORIZED_TO_PERFORM_THIS_ACTION);
+        }
+    }
+
+    public void checkAuthorizationBetweenUserAndReservation(User user, FoodReservation reservation) {
+        if (!reservation.getUser().getId().equals(user.getId())) {
+            throw new UserNotAuthorizedException(YOU_ARE_NOT_AUTHORIZED_TO_PERFORM_THIS_ACTION);
+        }
     }
 
 }
