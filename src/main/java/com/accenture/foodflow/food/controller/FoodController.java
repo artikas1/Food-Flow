@@ -42,7 +42,7 @@ public class FoodController {
             @Parameter(description = "City where the food item is located") @RequestParam("city") String city,
             @Parameter(description = "Expiry date of the food item") @RequestParam("expiryDate") LocalDate expiryDate,
             @Parameter(description = "Additional food details") @RequestParam(value = "foodDetails", required = false) FoodDetails foodDetails,
-            @Parameter(description = "Image of the food item") @RequestParam(value = "image", required = false) MultipartFile image) {
+            @Parameter(description = "Image of the food item") @RequestParam("image") MultipartFile image) {
         try {
             var request = foodMapper.toRequestDto(title, description, category, city, expiryDate, foodDetails, image);
             return ResponseEntity.status(HttpStatus.CREATED).body(foodService.saveFood(request));

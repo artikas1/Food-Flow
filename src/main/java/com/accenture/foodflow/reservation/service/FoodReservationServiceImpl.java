@@ -9,6 +9,8 @@ import com.accenture.foodflow.reservation.dto.FoodReservationResponseDto;
 import com.accenture.foodflow.reservation.integrity.FoodReservationDataIntegrity;
 import com.accenture.foodflow.reservation.mapper.FoodReservationMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -58,5 +60,14 @@ public class FoodReservationServiceImpl implements FoodReservationService {
 
         foodReservationDao.deleteReservation(reservationId);
     }
+
+    @Override
+    public Page<FoodReservationResponseDto> findAllUserReservations(Pageable pageable) {
+        var user = authenticationService.getAuthenticatedUser();
+
+        return foodReservationDao.findAllUserReservations(user.getId(), pageable)
+                .map(foodReservationMapper::toFoodResponseDto);
+    }
+
 
 }

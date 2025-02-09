@@ -27,6 +27,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -152,6 +153,43 @@ class FoodReservationServiceTests {
         verify(foodReservationMapper, never()).toEntity(null, null);
         verify(foodReservationDao, never()).save(null);
         verify(foodReservationMapper, never()).toFoodResponseDto(null);
+    }
+
+    @Test
+    void testCancelFoodReservation() {
+        doNothing().when(foodReservationDataIntegrity).validateId(foodReservation.getId());
+        when(authenticationService.getAuthenticatedUser()).thenReturn(user);
+        when(foodReservationDao.findById(foodReservation.getId())).thenReturn(foodReservation);
+        doNothing().when(authenticationService).checkAuthorizationBetweenUserAndReservation(user, foodReservation);
+        when(foodService.getFoodEntityById(foodReservation.getFood().getId())).thenReturn(food);
+        when(foodDao.saveFood(food)).thenReturn(food);
+
+        foodReservationService.cancelReservation(foodReservation.getId());
+
+        assertTrue(food.isAvailable());
+
+        verify(foodReservationDataIntegrity).validateId(foodReservation.getId());
+        verify(authenticationService).getAuthenticatedUser();
+        verify(foodReservationDao).findById(foodReservation.getId());
+        verify(authenticationService).checkAuthorizationBetweenUserAndReservation(user, foodReservation);
+        verify(foodService).getFoodEntityById(foodReservation.getFood().getId());
+        verify(foodDao).saveFood(food);
+        verify(foodReservationDao).deleteReservation(foodReservation.getId());
+    }
+
+    @Test
+    void testCancelFoodReservationWhenReservationIdIsNull() {
+        doThrow(FoodBadRequestException.class).when(foodReservationDataIntegrity).validateId(null);
+
+        assertThrows(FoodBadRequestException.class, () -> foodReservationService.cancelReservation(null));
+
+        verify(foodReservationDataIntegrity).validateId(null);
+        verify(authenticationService, never()).getAuthenticatedUser();
+        verify(foodReservationDao, never()).findById(null);
+        verify(authenticationService, never()).checkAuthorizationBetweenUserAndReservation(null, null);
+        verify(foodService, never()).getFoodEntityById(null);
+        verify(foodDao, never()).saveFood(null);
+        verify(foodReservationDao, never()).deleteReservation(null);
     }
 
 }
