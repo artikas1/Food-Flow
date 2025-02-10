@@ -30,7 +30,7 @@ export const Login: React.FC = () => {
                 <Loader />
             ) : (
                 <LoginForm
-                    title="Sign In"
+                    title="Log In"
                     email={loginDto.email}
                     password={loginDto.password}
                     onSubmit={handleLogin}
