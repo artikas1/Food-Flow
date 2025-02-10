@@ -34,7 +34,8 @@ public class SecurityConfig {
                                         "/v3/api-docs/**",
                                         "/swagger-resources/**",
                                         "/search/**",
-                                        "/ws/**")
+                                        "/ws/**",
+                                        "/food/categories")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())

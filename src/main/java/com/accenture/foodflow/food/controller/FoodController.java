@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequestMapping("/food")
 @RestController
@@ -90,6 +93,14 @@ public class FoodController {
             @Parameter(description = "Number of items per page") @RequestParam("pageSize") int size) {
         invalidatePageAndSize(page, size);
         return ResponseEntity.ok(foodService.getAllFoods(PageRequest.of(page, size)));
+    }
+
+    @Operation(summary = "Get all food categories", description = "Retrieves a list of all available food categories")
+    @GetMapping("/categories")
+    public List<String> getCategories() {
+        return Arrays.stream(Category.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
     }
 
     private void invalidatePageAndSize(int page, int size) {

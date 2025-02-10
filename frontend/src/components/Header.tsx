@@ -4,30 +4,26 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import '@fontsource/caveat'; // Install package first: npm install @fontsource/caveat
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import '@fontsource/caveat';
 
 const settings = ['Profile', 'Account', 'Logout'];
 
-function ResponsiveAppBar() {
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+interface HeaderProps {
+    onMenuIconClick: () => void;
+}
+
+function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
@@ -35,7 +31,7 @@ function ResponsiveAppBar() {
     };
 
     return (
-        <AppBar position="static" sx={{backgroundColor: 'white'}}>
+        <AppBar position="static" sx={{ backgroundColor: 'white' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <IconButton
@@ -43,9 +39,10 @@ function ResponsiveAppBar() {
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{mr: 2}}
+                        sx={{ mr: 2 }}
+                        onClick={onMenuIconClick}
                     >
-                        <MenuIcon sx={{color: '#AEC761'}}/>
+                        <MenuIcon sx={{ color: '#AEC761' }} />
                     </IconButton>
                     <Typography
                         variant="h6"
@@ -53,7 +50,7 @@ function ResponsiveAppBar() {
                         href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
-                            display: {xs: 'none', md: 'flex'},
+                            display: { xs: 'none', md: 'flex' },
                             fontFamily: '"Caveat", cursive',
                             fontWeight: 700,
                             color: '#AEC761',
@@ -63,34 +60,13 @@ function ResponsiveAppBar() {
                     >
                         FoodFlow
                     </Typography>
-
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{display: {xs: 'block', md: 'none'}}}
-                        >
-                            <Button variant="contained">Create listing</Button>
-                        </Menu>
-                    </Box>
                     <Typography
                         variant="h5"
                         component="a"
                         href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
-                            display: {xs: 'flex', md: 'none'},
+                            display: { xs: 'flex', md: 'none' },
                             flexGrow: 1,
                             fontFamily: '"Caveat", cursive',
                             fontWeight: 700,
@@ -100,48 +76,41 @@ function ResponsiveAppBar() {
                     >
                         FoodFlow
                     </Typography>
-                    <Box sx={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2}}>
+                    <Box sx={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{marginLeft: 'auto'}}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg"/>
+                            <IconButton onClick={handleOpenUserMenu} sx={{ marginLeft: 'auto' }}>
+                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>
                         <Menu
-                            sx={{mt: '45px'}}
+                            sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography sx={{textAlign: 'center'}}>{setting}</Typography>
+                                    <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
-                        <Box sx={{marginLeft: 'auto'}}>
+                        <Box sx={{ marginLeft: 'auto' }}>
                             <Button
                                 variant="contained"
                                 sx={{
                                     backgroundColor: '#AEC761',
                                     color: 'white',
-                                    '&:hover': {backgroundColor: '#94A857'}
+                                    '&:hover': { backgroundColor: '#94A857' }
                                 }}
                             >
                                 Create listing
                             </Button>
                         </Box>
                     </Box>
-
                 </Toolbar>
             </Container>
         </AppBar>
