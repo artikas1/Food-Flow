@@ -6,7 +6,7 @@ import {LoginForm} from "../forms/LoginForm.tsx";
 
 export const Login: React.FC = () => {
     const [loginDto, setLoginDto] = React.useState({
-        username: '',
+        email: '',
         password: ''
     });
 
@@ -31,7 +31,7 @@ export const Login: React.FC = () => {
             ) : (
                 <LoginForm
                     title="Sign In"
-                    username={loginDto.username}
+                    email={loginDto.email}
                     password={loginDto.password}
                     onSubmit={handleLogin}
                     onChange={handleFieldChange}

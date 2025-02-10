@@ -4,23 +4,23 @@ import {Link} from 'react-router-dom';
 
 type FormCardProps = {
     title: string;
-    username: string;
+    email: string;
     password: string;
     onSubmit: (e: React.FormEvent) => void;
     onChange: (field: string, value: string) => void;
 };
 
-export const LoginForm: React.FC<FormCardProps> = ({title, onSubmit, onChange, username, password}) => {
+export const LoginForm: React.FC<FormCardProps> = ({title, onSubmit, onChange, email, password}) => {
     return (
         <div className="flex justify-center items-center h-screen">
             <Box className="p-6 bg-gray-100 rounded shadow w-96">
                 <h3 className="text-2xl font-bold mb-4 text-center">{title}</h3>
                 <form onSubmit={onSubmit}>
                     <TextField
-                        label="Username"
+                        label="Email"
                         type="text"
-                        value={username}
-                        onChange={(e) => onChange('username', e.target.value)}
+                        value={email}
+                        onChange={(e) => onChange('email', e.target.value)}
                         fullWidth
                         margin="dense"
                     />

@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import axios from "axios";
 
 interface AuthContextProps {
     isAuthenticated: boolean;
     token: string | null;
-    authenticate: (url: string, userDto: { username: string; password: string }, redirectPath: string) => Promise<void>;
+    authenticate: (url: string, userDto: { email: string; password: string }, redirectPath: string) => Promise<void>;
     logout: () => void;
     getAccessToken: () => string | null;
     error: string | null;
@@ -31,24 +32,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const getAccessToken = () => token;
 
-    const authenticate = async (url: string, userDto: { username: string; password: string }, redirectPath: string) => {
+    const authenticate = async (url: string, userDto: { email: string; password: string }, redirectPath: string) => {
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(url, {
-                method: 'POST',
+            const response = await axios.post(url, userDto, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(userDto),
             });
 
-            if (!response.ok) {
+            if (response.status !== 200) {
                 throw new Error('Invalid credentials');
             }
 
-            const data = await response.json();
+            const data = response.data;
 
             Cookies.set('token', data.token, { expires: 7, secure: true, sameSite: 'Strict' });
 
