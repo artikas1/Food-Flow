@@ -1,22 +1,29 @@
-import React, {useState} from 'react';
-
-import './App.css';
-import Header from './components/Header.tsx';
-import Drawer from './components/Drawer.tsx';
-import Background from './components/Background.tsx';
-import FoodCardListings from './components/FoodCardListings.tsx';
+import React from 'react';
+import './index.css';
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {AuthProvider} from './contexts/AuthContext.tsx';
+import {Login} from "./components/auth/Login.tsx";
+import {SignUp} from "./components/auth/SignUp.tsx";
 
 function App() {
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
     return (
-        <>
-            <Background />
-            <Header onMenuIconClick={() => setDrawerOpen(true)} />
-            <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-            <FoodCardListings />
-        </>
+        <Router>
+            <AuthProvider>
+                <MainContent/>
+            </AuthProvider>
+        </Router>
     );
 }
+
+const MainContent: React.FC = () => {
+    return (
+        <>
+            <Routes>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/signup" element={<SignUp/>}/>
+            </Routes>
+        </>
+    );
+};
 
 export default App;
