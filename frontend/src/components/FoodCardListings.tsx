@@ -50,8 +50,8 @@ export default function MediaControlCard() {
                             Vilnius
                         </Typography>
                     </Box>
-
                 </CardContent>
+
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                     <Avatar
                         alt="Remy Sharp"
