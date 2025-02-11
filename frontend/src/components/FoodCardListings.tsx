@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { IoLocationOutline } from "react-icons/io5";
-import breadImage from 'C:/Users/artas/Desktop/Java_bootcamp/foodflow/frontend/src/assets/bread1.jpg';
 import Avatar from "@mui/material/Avatar";
 
 export default function MediaControlCard() {
@@ -28,7 +27,7 @@ export default function MediaControlCard() {
             <CardMedia
                 component="img"
                 sx={{ width: 151, height: 151, objectFit: 'cover' }}
-                image= {breadImage}
+                image= "/bread1.jpg"
                 alt="Food picture"
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
