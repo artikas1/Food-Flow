@@ -7,6 +7,8 @@ import com.accenture.foodflow.food.dto.FoodResponseDto;
 import com.accenture.foodflow.food.entity.Food;
 import com.accenture.foodflow.food.integrity.FoodDataIntegrity;
 import com.accenture.foodflow.food.mapper.FoodMapper;
+import com.accenture.foodflow.user.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,8 +81,10 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Page<FoodResponseDto> getAllFoods(Pageable pageable) {
-        var foods = foodDao.getAllFoods(pageable);
+    @Transactional
+    public Page<FoodResponseDto> getAllUserFoods(Pageable pageable) {
+        User user = authenticationService.getAuthenticatedUser();
+        var foods = foodDao.getAllFoodsByUserId(pageable, user.getId());
 
         return foods.map(foodMapper::toResponseDto);
     }

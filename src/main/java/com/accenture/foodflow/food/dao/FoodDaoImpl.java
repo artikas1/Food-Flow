@@ -43,8 +43,8 @@ public class FoodDaoImpl implements FoodDao {
     }
 
     @Override
-    public Page<Food> getAllFoods(Pageable pageable) {
-        return foodRepository.findAll(pageable);
+    public Page<Food> getAllFoodsByUserId(Pageable pageable, UUID userId) {
+        return foodRepository.findAllByUser(pageable, userId);
     }
 
     @Override

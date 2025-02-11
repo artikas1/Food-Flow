@@ -87,12 +87,12 @@ public class FoodController {
     }
 
     @Operation(summary = "Get all food items", description = "Retrieves a paginated list of all food items")
-    @GetMapping("/all")
+    @GetMapping("/all/me")
     public ResponseEntity<Page<FoodResponseDto>> getAllFoods(
             @Parameter(description = "Page number") @RequestParam("page") int page,
             @Parameter(description = "Number of items per page") @RequestParam("pageSize") int size) {
         invalidatePageAndSize(page, size);
-        return ResponseEntity.ok(foodService.getAllFoods(PageRequest.of(page, size)));
+        return ResponseEntity.ok(foodService.getAllUserFoods(PageRequest.of(page, size)));
     }
 
     @Operation(summary = "Get all food categories", description = "Retrieves a list of all available food categories")

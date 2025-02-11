@@ -11,7 +11,7 @@ public interface FoodDao {
     Food saveFood(Food food);
     Food getFoodById(UUID id);
     void deleteFood(UUID id);
-    Page<Food> getAllFoods(Pageable pageable);
+    Page<Food> getAllFoodsByUserId(Pageable pageable, UUID userId);
     Page<Food> findAll(Specification<Food> specification, Pageable pageable);
 
 }
