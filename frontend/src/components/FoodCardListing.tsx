@@ -8,7 +8,14 @@ import Typography from '@mui/material/Typography';
 import { IoLocationOutline } from "react-icons/io5";
 import Avatar from "@mui/material/Avatar";
 
-export default function FoodCardListing() {
+interface FoodCardListingProps {
+    title: string;
+    city: string;
+    image: string;
+    rating: string;
+}
+
+export default function FoodCardListing({ title, city, image, rating }: FoodCardListingProps) {
     const theme = useTheme();
 
     return (
@@ -28,13 +35,13 @@ export default function FoodCardListing() {
             <CardMedia
                 component="img"
                 sx={{ width: 151, height: 151, objectFit: 'cover' }}
-                image= "/bread1.jpg"
+                image={`data:image/jpeg;base64,${image}`}
                 alt="Food picture"
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent sx={{ flex: '1 0 auto', pb:1 }}>
                     <Typography component="div" variant="h6" sx={{ fontWeight: 600 }}>
-                        Full grain bread
+                        {title}
                     </Typography>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
@@ -47,7 +54,7 @@ export default function FoodCardListing() {
                                 fontSize: '1rem'
                             }}
                         >
-                            Vilnius
+                            {city}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -67,7 +74,7 @@ export default function FoodCardListing() {
                             marginLeft: 'auto'
                         }}
                     >
-                        4.2/5 (14 reviews)
+                        {rating}
                     </Typography>
                 </Box>
             </Box>
