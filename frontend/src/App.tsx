@@ -6,6 +6,7 @@ import {Login} from "./components/auth/Login.tsx";
 import {SignUp} from "./components/auth/SignUp.tsx";
 import {PrivateRoute} from "./routes/PrivateRoute.tsx";
 import {Main} from "./components/main/Main.tsx";
+import Profile from "./components/profile/Profile.tsx";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ const MainContent: React.FC = () => {
                 <Route path="/signup" element={<SignUp/>}/>
                 <Route element={<PrivateRoute />}>
                     <Route path="/" element={<Main />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Route>
             </Routes>
         </>

@@ -21,16 +21,8 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationService authenticationService;
 
     @Override
-    public UserResponseDto getUserById(UUID id) {
-        validateUserId(id);
-
-        var optionalUser = userDao.findUserById(id);
-
-        if (optionalUser.isEmpty()) {
-            throw new IllegalArgumentException("User not found");
-        }
-
-        var user = optionalUser.get();
+    public UserResponseDto getUser() {
+        User user = authenticationService.getAuthenticatedUser();
 
         return UserResponseDto.builder()
                 .id(user.getId())
@@ -40,12 +32,6 @@ public class UserServiceImpl implements UserService {
                 .birthDate(user.getBirthDate())
                 .gender(user.getGender())
                 .build();
-    }
-
-    private void validateUserId(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
-        }
     }
 
     @Override

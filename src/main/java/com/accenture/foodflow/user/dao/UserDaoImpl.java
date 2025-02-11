@@ -25,15 +25,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<User>  findUserById(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
-        }
-
-        return userRepository.findById(id);
-    }
-
-    @Override
     public void saveUser(User user) {
         if(user == null) {
             throw new EntityNotFoundException("User cannot be null");
