@@ -9,10 +9,9 @@ import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
-import axios from 'axios';
-import {useEffect, useState} from "react";
-
-const API = "http://localhost:8080/api/v1/food/categories";
+import { useState } from "react";
+import { API_ENDPOINTS } from "../apiConfig.ts";
+import useFetchData from "../hooks/useFetchData.tsx";
 
 interface DrawerProps {
     open: boolean;
@@ -21,7 +20,8 @@ interface DrawerProps {
 
 export default function TemporaryDrawer({ open, onClose }: DrawerProps) {
     const [openCategories, setOpenCategories] = useState(false);
-    const [categories, setCategories] = useState<string[]>([]);
+    const { data: categories, error, loading } = useFetchData(API_ENDPOINTS.CATEGORIES);
+
     const formatCategoryName = (category: string) => {
         return category
             .split('_')
@@ -30,15 +30,6 @@ export default function TemporaryDrawer({ open, onClose }: DrawerProps) {
             })
             .join(' ');
     };
-
-    useEffect(() => {
-        axios.get(API)
-            .then(response => {
-                const formattedCategories = response.data.map((category: string) => formatCategoryName(category));
-                setCategories(formattedCategories);
-            })
-            .catch(error => console.error("Error fetching categories:", error));
-    }, []);
 
     const handleToggleCategories = () => {
         setOpenCategories(!openCategories);
@@ -54,7 +45,7 @@ export default function TemporaryDrawer({ open, onClose }: DrawerProps) {
             role="presentation"
         >
             <List>
-                {['All listings', 'My listings'].map((text, index) => (
+                {['All listings', 'My listings'].map((text) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
                             <ListItemText primary={text} />
@@ -73,11 +64,23 @@ export default function TemporaryDrawer({ open, onClose }: DrawerProps) {
             </ListItem>
             <Collapse in={openCategories} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    {categories.length > 0 ? (
-                        categories.map((category) => (
+                    {loading ? (
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Loading categories..." />
+                            </ListItemButton>
+                        </ListItem>
+                    ) : error ? (
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Error loading categories" />
+                            </ListItemButton>
+                        </ListItem>
+                    ) : categories && categories.length > 0 ? (
+                        categories.map((category: string) => (
                             <ListItem key={category} disablePadding>
                                 <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemText primary={category} />
+                                    <ListItemText primary={formatCategoryName(category)} />
                                 </ListItemButton>
                             </ListItem>
                         ))

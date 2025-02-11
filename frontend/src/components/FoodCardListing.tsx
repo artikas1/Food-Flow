@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import { IoLocationOutline } from "react-icons/io5";
 import Avatar from "@mui/material/Avatar";
 
-export default function MediaControlCard() {
+export default function FoodCardListing() {
     const theme = useTheme();
 
     return (
@@ -16,6 +16,7 @@ export default function MediaControlCard() {
             sx={{
                 display: 'flex',
                 maxWidth: '50%',
+                width: '35%',
                 margin: 'auto',
                 marginTop: '1rem',
                 borderRadius: 4,

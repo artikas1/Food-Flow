@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -21,6 +22,7 @@ interface HeaderProps {
 
 function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+    const navigate = useNavigate();
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -30,9 +32,16 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
         setAnchorElUser(null);
     };
 
+    const handleMenuItemClick = (setting: string) => {
+        if (setting === 'Profile') {
+            navigate('/profile');
+        }
+        handleCloseUserMenu();
+    };
+
     return (
-        <AppBar position="static" sx={{ backgroundColor: 'white' }}>
-            <Container maxWidth="xl">
+        <AppBar position="static" sx={{ backgroundColor: 'white', boxShadow: 2 }}>
+            <Container maxWidth="xl" sx={{ boxShadow: 2 }}>
                 <Toolbar disableGutters>
                     <IconButton
                         size="large"
@@ -47,7 +56,6 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
                     <Typography
                         variant="h6"
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -63,7 +71,6 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
                     <Typography
                         variant="h5"
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: 'flex', md: 'none' },
@@ -93,7 +100,7 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={() => handleMenuItemClick(setting)}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}

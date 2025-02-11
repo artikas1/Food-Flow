@@ -4,6 +4,8 @@ import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import {AuthProvider} from './contexts/AuthContext.tsx';
 import {Login} from "./components/auth/Login.tsx";
 import {SignUp} from "./components/auth/SignUp.tsx";
+import {PrivateRoute} from "./routes/PrivateRoute.tsx";
+import {Main} from "./components/main/Main.tsx";
 
 function App() {
     return (
@@ -21,6 +23,9 @@ const MainContent: React.FC = () => {
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
+                <Route element={<PrivateRoute />}>
+                    <Route path="/" element={<Main />} />
+                </Route>
             </Routes>
         </>
     );
