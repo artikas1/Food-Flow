@@ -19,7 +19,7 @@ interface DrawerProps {
     onClose: () => void;
 }
 
-export default function TemporaryDrawer({ open, onClose }: DrawerProps) {
+export default function DrawerComponent({ open, onClose }: DrawerProps) {
     const [openCategories, setOpenCategories] = useState(false);
     const [categories, setCategories] = useState<string[]>([]);
     const formatCategoryName = (category: string) => {

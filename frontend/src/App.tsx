@@ -1,29 +1,22 @@
-import React from 'react';
-import './index.css';
-import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
-import {AuthProvider} from './contexts/AuthContext.tsx';
-import {Login} from "./components/auth/Login.tsx";
-import {SignUp} from "./components/auth/SignUp.tsx";
+import React, {useState} from 'react';
+
+import './App.css';
+import Header from './components/Header.tsx';
+import Drawer from './components/Drawer.tsx';
+import Background from './components/Background.tsx';
+import AllListingsComponent from './components/AllListingsComponent.tsx';
 
 function App() {
-    return (
-        <Router>
-            <AuthProvider>
-                <MainContent/>
-            </AuthProvider>
-        </Router>
-    );
-}
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
-const MainContent: React.FC = () => {
     return (
         <>
-            <Routes>
-                <Route path="/login" element={<Login/>}/>
-                <Route path="/signup" element={<SignUp/>}/>
-            </Routes>
+            <Background />
+            <Header onMenuIconClick={() => setDrawerOpen(true)} />
+            <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+            <AllListingsComponent />
         </>
     );
-};
+}
 
 export default App;
