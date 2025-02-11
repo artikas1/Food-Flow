@@ -55,7 +55,7 @@ export const LoginForm: React.FC<FormCardProps> = ({title, onSubmit, onChange, e
                         </Button>
                     </div>
                     <div className="mt-5 text-center">
-                        <p>Don't have an account yet? <Link to="/register" className="text-blue-500">Sign Up</Link></p>
+                        <p>Don't have an account yet? <Link to="/signup" className="text-blue-500">Sign Up</Link></p>
                     </div>
                 </form>
             </Box>
