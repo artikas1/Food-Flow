@@ -10,8 +10,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
 import { useState } from "react";
-import { API_ENDPOINTS } from "../apiConfig.ts";
-import useFetchData from "../hooks/useFetchData.tsx";
+import { API_ENDPOINTS } from "../../apiConfig.ts";
+import useFetchData from "../../hooks/useFetchData.tsx";
 
 interface DrawerProps {
     open: boolean;

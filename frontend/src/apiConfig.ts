@@ -5,4 +5,5 @@ export const API_ENDPOINTS = {
     REGISTER: `${API_BASE_URL}/auth/register`,
     CATEGORIES: `${API_BASE_URL}/food/categories`,
     ALL: `${API_BASE_URL}/food/all`,
+    CREATE_FOOD: `${API_BASE_URL}/food`,
 }

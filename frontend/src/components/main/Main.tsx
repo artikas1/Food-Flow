@@ -1,31 +1,37 @@
-import React, { useState } from 'react';
-import Header from '../Header.tsx';
-import Drawer from '../Drawer.tsx';
-import FoodCardListing from '../FoodCardListing.tsx';
+import React, { useEffect, useState } from 'react';
+import FoodCardListing from './FoodCardListing.tsx';
 import useFetchAllFoods from '../../hooks/useFetchAllFoods.tsx';
-import {Loader} from "../loader/Loader.tsx";
+import { Loader } from '../loader/Loader.tsx';
+import { Pagination, Box } from '@mui/material';
 
 export const Main = () => {
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
-    const { data, error, loading } = useFetchAllFoods(page, pageSize);
+    const { data, error, loading } = useFetchAllFoods(page - 1, pageSize);  // Adjust page indexing
 
-    const handleOnMenuIconClick = () => {
-        setIsDrawerOpen(true);
+    const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);  // Update the page number
     };
 
-    const handleDrawerClose = () => {
-        setIsDrawerOpen(false);
-    };
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                <Loader />
+            </Box>
+        );
+    }
+
+    if (error) {
+        return (
+            <Box sx={{ textAlign: 'center', mt: 4 }}>
+                <p>Error: {error}</p>
+            </Box>
+        );
+    }
 
     return (
-        <div className="flex flex-col w-full h-screen">
-            <Header onMenuIconClick={handleOnMenuIconClick} />
-            <Drawer open={isDrawerOpen} onClose={handleDrawerClose} />
-            <div className="flex-grow flex justify-center items-center flex-wrap gap-4">
-                {loading && <p><Loader /></p>}
-                {error && <p>Error: {error}</p>}
+        <Box sx={{ mt: 4, px: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                 {data && data.content.map((food) => (
                     <FoodCardListing
                         key={food.id}
@@ -35,7 +41,29 @@ export const Main = () => {
                         rating="4.2/5 (14 reviews)"
                     />
                 ))}
-            </div>
-        </div>
+
+                {/* Pagination */}
+                {data && data.totalPages > 1 && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                        <Pagination
+                            count={data.totalPages}
+                            page={page}
+                            onChange={handlePageChange}
+                            sx={{
+                                '& .MuiPaginationItem-root': {
+                                    color: '#AEC761',
+                                    '&.Mui-selected': {
+                                        backgroundColor: '#AEC761',
+                                        color: 'white'
+                                    }
+                                }
+                            }}
+                        />
+                    </Box>
+                )}
+            </Box>
+        </Box>
     );
 };
+
+export default Main;

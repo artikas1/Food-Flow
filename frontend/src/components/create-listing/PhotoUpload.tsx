@@ -1,56 +1,57 @@
-import * as React from "react";
-import { Box, Typography } from "@mui/material"
-import { Upload as UploadIcon } from "@mui/icons-material"
+import React from "react";
 
-interface PhotoUploadProps {
-    photo: string | null
-    setPhoto: (photo: string | null) => void
-}
+type PhotoUploadProps = {
+    photo: File | null;
+    setPhoto: React.Dispatch<React.SetStateAction<File | null>>;
+};
 
 export default function PhotoUpload({ photo, setPhoto }: PhotoUploadProps) {
     const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
+        const file = e.target.files?.[0];
         if (file) {
-            const imageUrl = URL.createObjectURL(file)
-            setPhoto(imageUrl)
+            setPhoto(file); // Directly set the file object
         }
-    }
+    };
 
     return (
-        <Box
-            sx={{
-                border: "2px dashed #ccc",
-                borderRadius: 2,
-                overflow: "hidden",
-                position: "relative",
-            }}
-        >
-            <input type="file" id="photo-upload" accept="image/*" onChange={handlePhotoChange} style={{ display: "none" }} />
+        <div className="border-2 border-dashed border-gray-300 rounded-lg overflow-hidden relative">
+            <input
+                type="file"
+                id="photo-upload"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+            />
             <label
                 htmlFor="photo-upload"
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "2rem",
-                    cursor: "pointer",
-                }}
+                className="flex flex-col items-center justify-center p-8 cursor-pointer"
             >
                 {photo ? (
                     <img
-                        src={photo || "/placeholder.svg"}
+                        src={URL.createObjectURL(photo)} // Only call createObjectURL once
                         alt="Selected photo"
-                        style={{ maxWidth: "100%", maxHeight: "300px", objectFit: "cover", borderRadius: "4px" }}
+                        className="max-w-full max-h-72 object-cover rounded-md"
                     />
                 ) : (
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 1 }}>
-                        <UploadIcon sx={{ fontSize: 48, color: "text.secondary" }} />
-                        <Typography color="text.secondary">Select photo</Typography>
-                    </Box>
+                    <div className="flex flex-col items-center gap-2 text-gray-500">
+                        <svg
+                            className="w-12 h-12"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M16 16l-4-4m0 0l-4 4m4-4v12M20 8a4 4 0 00-8 0M4 16a4 4 0 018 0"
+                            />
+                        </svg>
+                        <span>Select a photo</span>
+                    </div>
                 )}
             </label>
-        </Box>
-    )
+        </div>
+    );
 }
-

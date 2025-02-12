@@ -1,8 +1,7 @@
-// @ts-ignore
 import CreateListingForm from "./CreateListingForm.tsx"
-
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
+import React from "react"
 
 const theme = createTheme({
     palette: {

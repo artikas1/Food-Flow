@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, SelectChangeEvent } from "@mui/material";
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 
 interface FoodDetail {
     id: string;
@@ -7,37 +7,35 @@ interface FoodDetail {
 }
 
 const foodDetails: FoodDetail[] = [
-    { id: "spicy", label: "Spicy" },
-    { id: "vegan", label: "Vegan" },
-    { id: "gluten-free", label: "Gluten free" },
-    { id: "halal", label: "Halal" },
+    { id: "SPICY", label: "Spicy" },
+    { id: "VEGAN", label: "Vegan" },
+    { id: "GLUTEN-FREE", label: "Gluten free" },
+    { id: "HALAL", label: "Halal" },
 ];
 
 interface FoodDetailsSelectProps {
-    selectedDetails: string[];
-    setSelectedDetails: (details: string[]) => void;
+    selectedDetail: string;
+    setSelectedDetail: (detail: string) => void;
 }
 
-export default function FoodDetailsSelect({ selectedDetails, setSelectedDetails }: FoodDetailsSelectProps) {
-    const handleChange = (event: SelectChangeEvent<string[]>) => {
-        setSelectedDetails(event.target.value as string[]);
+export default function FoodDetailsSelect({ selectedDetail, setSelectedDetail }: FoodDetailsSelectProps) {
+    const handleChange = (event: SelectChangeEvent<string>) => {
+        setSelectedDetail(event.target.value);
     };
 
     return (
         <FormControl fullWidth>
-            <InputLabel id="food-details-label">Food details</InputLabel>
+            <InputLabel id="food-detail-label">Food detail</InputLabel>
             <Select
-                labelId="food-details-label"
-                id="food-details"
-                multiple
-                value={selectedDetails}
+                labelId="food-detail-label"
+                id="food-detail"
+                value={selectedDetail}
                 onChange={handleChange}
-                renderValue={(selected) => `${(selected as string[]).length} selected`}
+                label="Food detail"
             >
                 {foodDetails.map((detail) => (
                     <MenuItem key={detail.id} value={detail.id}>
-                        <Checkbox checked={selectedDetails.indexOf(detail.id) > -1} />
-                        <ListItemText primary={detail.label} />
+                        {detail.label.toUpperCase()}
                     </MenuItem>
                 ))}
             </Select>

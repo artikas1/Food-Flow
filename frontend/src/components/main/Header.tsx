@@ -64,7 +64,9 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
                             color: '#AEC761',
                             textDecoration: 'none',
                             fontSize: '34px',
+                            cursor: 'pointer'
                         }}
+                        onClick={() => navigate('/')}
                     >
                         FoodFlow
                     </Typography>
@@ -113,6 +115,7 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
                                     color: 'white',
                                     '&:hover': { backgroundColor: '#94A857' }
                                 }}
+                                onClick={() => navigate('/create-listing')}
                             >
                                 Create listing
                             </Button>
