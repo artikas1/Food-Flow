@@ -18,7 +18,7 @@ interface DrawerProps {
     onClose: () => void;
 }
 
-export default function TemporaryDrawer({ open, onClose }: DrawerProps) {
+export default function DrawerComponent({ open, onClose }: DrawerProps) {
     const [openCategories, setOpenCategories] = useState(false);
     const { data: categories, error, loading } = useFetchData(API_ENDPOINTS.CATEGORIES);
 
