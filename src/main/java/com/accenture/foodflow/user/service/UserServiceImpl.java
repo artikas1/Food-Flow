@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -50,6 +51,26 @@ public class UserServiceImpl implements UserService {
         currentUser.setPassword(passwordEncoder.encode(changePasswordRequestDto.getNewPassword()));
 
         userDao.saveUser(currentUser);
+    }
+
+    @Override
+    public UserResponseDto getUserById(UUID userId) {
+        Optional<User> optionalUser = userDao.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        User user = optionalUser.get();
+
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .birthDate(user.getBirthDate())
+                .gender(user.getGender())
+                .build();
     }
 
 }

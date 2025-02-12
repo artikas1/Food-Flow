@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
@@ -30,6 +32,13 @@ public class UserController {
             @Parameter(description = "Request body containing old and new passwords") @RequestBody ChangePasswordRequestDto changePasswordRequestDto) {
         userService.changePassword(changePasswordRequestDto);
         return ResponseEntity.ok("Password changed successfully");
+    }
+
+    @Operation(summary = "Get user by ID", description = "Retrieves user details by their ID")
+    @GetMapping("/{userId}")
+    public UserResponseDto getUserById(
+            @Parameter(description = "ID of the user") @PathVariable UUID userId) {
+        return userService.getUserById(userId);
     }
 
 }

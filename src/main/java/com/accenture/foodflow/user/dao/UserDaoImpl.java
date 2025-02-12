@@ -1,6 +1,7 @@
 package com.accenture.foodflow.user.dao;
 
 import com.accenture.foodflow.common.exception.exceptions.EntityNotFoundException;
+import com.accenture.foodflow.user.dto.UserResponseDto;
 import com.accenture.foodflow.user.entity.User;
 import com.accenture.foodflow.user.repository.UserRepository;
 import lombok.AllArgsConstructor;

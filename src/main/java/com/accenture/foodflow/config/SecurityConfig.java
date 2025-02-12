@@ -36,7 +36,8 @@ public class SecurityConfig {
                                         "/search/**",
                                         "/ws/**",
                                         "/food/categories",
-                                        "/reviews/get")
+                                        "/reviews/get*",
+                                        "/users/*")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())

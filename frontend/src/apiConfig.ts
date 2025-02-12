@@ -7,4 +7,8 @@ export const API_ENDPOINTS = {
     PROFILE: `${API_BASE_URL}/users/me`,
     CHANGE_PASSWORD: `${API_BASE_URL}/users/change-password`,
     USER_FOODS: `${API_BASE_URL}/food/all/me`,
-}
+    USER_FOODS_BY_ID: (userId: string) => `${API_BASE_URL}/food/all/${userId}`,
+    REVIEWS_CREATE: `${API_BASE_URL}/reviews/create`,
+    REVIEWS_GET: `${API_BASE_URL}/reviews/get`,
+    USER_BY_ID: (userId: string) => `${API_BASE_URL}/users/${userId}`,
+};

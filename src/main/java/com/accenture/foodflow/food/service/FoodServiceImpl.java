@@ -89,4 +89,10 @@ public class FoodServiceImpl implements FoodService {
         return foods.map(foodMapper::toResponseDto);
     }
 
+    @Override
+    @Transactional
+    public Page<FoodResponseDto> getAllFoodsByUserId(Pageable pageable, UUID userId) {
+        return foodDao.getAllFoodsByUserId(pageable, userId).map(foodMapper::toResponseDto);
+    }
+
 }

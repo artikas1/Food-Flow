@@ -16,5 +16,6 @@ public interface FoodService {
     FoodResponseDto updateFoodById(UUID id, FoodRequestDto foodRequestDto);
     void deleteFoodById(UUID id);
     Page<FoodResponseDto> getAllUserFoods(Pageable pageable);
+    Page<FoodResponseDto> getAllFoodsByUserId(Pageable pageable, UUID userId);
 
 }

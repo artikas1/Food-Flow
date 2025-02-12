@@ -15,7 +15,12 @@ interface FoodItem {
     image: string;
 }
 
-const UserListings: React.FC = () => {
+interface Props {
+    userId?: string;
+    isCurrentUser: boolean;
+}
+
+const UserListings: React.FC<Props> = ({ userId, isCurrentUser }) => {
     const [listings, setListings] = useState<FoodItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -28,8 +33,11 @@ const UserListings: React.FC = () => {
         setError('');
         try {
             const token = getAccessToken();
-            if (!token) throw new Error('No access token found');
-            const response = await axios.get(API_ENDPOINTS.USER_FOODS, {
+            const endpoint = userId
+                ? API_ENDPOINTS.USER_FOODS_BY_ID(userId)
+                : API_ENDPOINTS.USER_FOODS;
+
+            const response = await axios.get(endpoint, {
                 params: { page: page - 1, pageSize: 10 },
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -69,7 +77,7 @@ const UserListings: React.FC = () => {
     return (
         <Box sx={{ mt: 4, px: 3 }}>
             <Typography variant="h5" sx={{ mb: 2, color: '#AEC761', fontWeight: 600 }}>
-                My Listings
+                {isCurrentUser ? 'My Listings' : 'Listings'}
             </Typography>
 
             {listings.length === 0 ? (
@@ -140,22 +148,24 @@ const UserListings: React.FC = () => {
                                         <Typography variant="caption" color="text.secondary">
                                             Expires: {format(new Date(item.expiryDate), 'MMM dd, yyyy')}
                                         </Typography>
-                                        <Button
-                                            size="small"
-                                            variant="contained"
-                                            sx={{
-                                                backgroundColor: '#AEC761',
-                                                '&:hover': { backgroundColor: '#94A857' },
-                                                borderRadius: 2,
-                                                textTransform: 'none',
-                                                px: 2,
-                                                py: 0.5,
-                                                mb: -4,
-                                                bottom: 14
-                                            }}
-                                        >
-                                            Manage
-                                        </Button>
+                                        {isCurrentUser && (
+                                            <Button
+                                                size="small"
+                                                variant="contained"
+                                                sx={{
+                                                    backgroundColor: '#AEC761',
+                                                    '&:hover': { backgroundColor: '#94A857' },
+                                                    borderRadius: 2,
+                                                    textTransform: 'none',
+                                                    px: 2,
+                                                    py: 0.5,
+                                                    mb: -4,
+                                                    bottom: 14
+                                                }}
+                                            >
+                                                Manage
+                                            </Button>
+                                        )}
                                     </Box>
                                 </CardContent>
                             </Card>

@@ -28,6 +28,7 @@ const MainContent: React.FC = () => {
                     <Route path="/" element={<Main />} />
                     <Route path="/profile" element={<Profile />} />
                 </Route>
+                <Route path="/profile/:userId" element={<Profile />} />
             </Routes>
         </>
     );
