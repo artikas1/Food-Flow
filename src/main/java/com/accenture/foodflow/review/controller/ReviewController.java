@@ -10,12 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -45,5 +41,12 @@ public class ReviewController {
     public void deleteReview(
             @Parameter(description = "ID of the review to delete") @RequestParam("reviewId") UUID reviewId) {
         reviewService.deleteReview(reviewId);
+    }
+
+    @Operation(summary = "Get average rating", description = "Get the average rating of a user")
+    @GetMapping("/average-rating")
+    public double getAverageRating(
+            @Parameter(description = "ID of the user to get the average rating for") @RequestParam("userId") UUID userId) {
+        return reviewService.getAverageRating(userId);
     }
 }

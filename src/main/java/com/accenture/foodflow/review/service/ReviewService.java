@@ -10,5 +10,6 @@ public interface ReviewService {
     ReviewResponseDto createReview(SubmitReviewRequestDto submitReviewRequestDto);
     ReviewResponseDto updateReview(UpdateReviewRequestDto updateReviewRequestDto);
     void deleteReview(UUID reviewId);
+    double getAverageRating(UUID userId);
 
 }

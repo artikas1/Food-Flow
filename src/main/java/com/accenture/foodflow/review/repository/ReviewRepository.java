@@ -16,4 +16,6 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     @Query("UPDATE Review r SET r.isDisabled = true WHERE r.id = :reviewId")
     void disableReview(UUID reviewId);
 
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.target.id = :userId")
+    double getAverageRating(UUID userId);
 }

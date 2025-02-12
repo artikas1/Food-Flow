@@ -51,4 +51,9 @@ public class ReviewServiceImpl implements ReviewService {
         reviewDao.deleteReview(reviewId);
     }
 
+    @Override
+    public double getAverageRating(UUID userId) {
+        return reviewDao.getAverageRating(userId);
+    }
+
 }
