@@ -3,6 +3,7 @@ import Header from '../Header.tsx';
 import Drawer from '../Drawer.tsx';
 import FoodCardListing from '../FoodCardListing.tsx';
 import useFetchAllFoods from '../../hooks/useFetchAllFoods.tsx';
+import {Loader} from "../loader/Loader.tsx";
 
 export const Main = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -23,7 +24,7 @@ export const Main = () => {
             <Header onMenuIconClick={handleOnMenuIconClick} />
             <Drawer open={isDrawerOpen} onClose={handleDrawerClose} />
             <div className="flex-grow flex justify-center items-center flex-wrap gap-4">
-                {loading && <p>Loading...</p>}
+                {loading && <p><Loader /></p>}
                 {error && <p>Error: {error}</p>}
                 {data && data.content.map((food) => (
                     <FoodCardListing
