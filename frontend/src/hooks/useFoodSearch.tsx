@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import {API_ENDPOINTS} from "../apiConfig.ts";
+import { API_ENDPOINTS } from "../apiConfig.ts";
 
 interface FoodResponseDto {
     id: string;
@@ -21,7 +21,7 @@ export const useFoodSearch = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(5);
+    const [pageSize] = useState<number>(5);
     const [search, setSearch] = useState<string>("");
     const [categories, setCategories] = useState<string[]>([]);
 
@@ -49,7 +49,17 @@ export const useFoodSearch = () => {
         };
 
         fetchFoods();
-    }, [page, pageSize, search, categories]);
+    }, [page, search, categories]);
 
-    return { data, loading, error, setPage, setPageSize, setSearch, setCategories };
+    const handleSetSearch = (query: string) => {
+        setSearch(query);
+        setPage(1);
+    };
+
+    const handleSetCategories = (newCategories: string[]) => {
+        setCategories(newCategories);
+        setPage(1);
+    };
+
+    return { data, loading, error, setPage, setSearch: handleSetSearch, setCategories: handleSetCategories };
 };

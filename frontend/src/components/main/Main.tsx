@@ -3,9 +3,9 @@ import FoodCardListing from "./FoodCardListing.tsx";
 import { useFoodSearch } from "../../hooks/useFoodSearch.tsx";
 import { useFetchData } from "../../hooks/useFetchData.tsx";
 import { Loader } from "../loader/Loader.tsx";
-import { Pagination, Box, TextField } from "@mui/material";
+import { Pagination, Box, TextField, Button } from "@mui/material";
 import { Filter } from "./Filter.tsx";
-import {API_ENDPOINTS} from "../../apiConfig.ts";
+import { API_ENDPOINTS } from "../../apiConfig.ts";
 
 export const Main = () => {
     const { data, loading, error, setPage, setSearch, setCategories } = useFoodSearch();
@@ -29,6 +29,14 @@ export const Main = () => {
     const handleCategoryChange = (selected: string[]) => {
         setSelectedCategories(selected);
         setCategories(selected);
+    };
+
+    const handleResetFilters = () => {
+        setSearch("");
+        setSearchInput("");
+        setSelectedCategories([]);
+        setCategories([]);
+        setPage(1);
     };
 
     if (loading || categoriesLoading) {
@@ -58,6 +66,9 @@ export const Main = () => {
                     onKeyPress={(e) => e.key === "Enter" && handleSearchSubmit()}
                 />
                 <Filter value={selectedCategories} onChange={handleCategoryChange} categories={categories || []} />
+                <Button variant="outlined" color="primary" onClick={handleResetFilters}>
+                    Reset Filters
+                </Button>
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, mt: 4 }}>
@@ -79,6 +90,7 @@ export const Main = () => {
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                         <Pagination
                             count={data.totalPages}
+                            page={data.currentPage}
                             onChange={handlePageChange}
                             sx={{
                                 "& .MuiPaginationItem-root": {

@@ -103,6 +103,14 @@ public class FoodController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Get all food details", description = "Retrieves a list of all available food details")
+    @GetMapping("/details")
+    public List<String> getFoodDetails() {
+        return Arrays.stream(FoodDetails.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+    }
+
     private void invalidatePageAndSize(int page, int size) {
         if (page < 0 || size < 0 || size > MAX_PAGE_SIZE) {
             throw new InvalidPageException(INVALID_PAGE_OR_SIZE);
