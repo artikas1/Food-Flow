@@ -9,5 +9,5 @@ public interface ReviewDao {
     Review updateReview(Review review);
     Review findById(UUID reviewId);
     void deleteReview(UUID reviewId);
-
+    double getAverageRating(UUID userId);
 }

@@ -42,4 +42,9 @@ public class ReviewDaoImpl implements ReviewDao {
         reviewRepository.disableReview(reviewId);
     }
 
+    @Override
+    public double getAverageRating(UUID userId) {
+        return reviewRepository.getAverageRating(userId);
+    }
+
 }
