@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+      http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="1" author="Gustas">
+        <insert tableName="foods">
+            <column name="id" value="9648f7fc-345b-43be-bff3-629e3cb0947e" type="uuid"/>
+            <column name="title" value="Avocado"/>
+            <column name="description" value="Fresh avocado"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-01'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="FRUITS"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/avocado.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="a1b2c3d4-5678-90ef-1234-567890abcdef" type="uuid"/>
+            <column name="title" value="Banana"/>
+            <column name="description" value="Fresh banana"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-05'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="FRUITS"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/banana.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="b2c3d4e5-6789-01f2-2345-678901abcdef" type="uuid"/>
+            <column name="title" value="Beef"/>
+            <column name="description" value="Fresh beef"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-10'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="MEAT"/>
+            <column name="food_details" value="HALLAL"/>
+            <column name="image" valueBlobFile="images/beef.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="c3d4e5f6-7890-12f3-3456-789012abcdef" type="uuid"/>
+            <column name="title" value="Bread"/>
+            <column name="description" value="Fresh bread"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-15'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="BAKED_GOODS"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/bread.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="d4e5f6a7-8901-23f4-4567-890123abcdef" type="uuid"/>
+            <column name="title" value="Chips"/>
+            <column name="description" value="Fresh chips"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-20'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="SNACKS"/>
+            <column name="food_details" value="SPICY"/>
+            <column name="image" valueBlobFile="images/chips.png"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="e5f6a7b8-9012-34f5-5678-901234abcdef" type="uuid"/>
+            <column name="title" value="Coke"/>
+            <column name="description" value="Fresh coke"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-25'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="BEVERAGES"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/coke.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="f6a7b8c9-0123-45f6-6789-012345abcdef" type="uuid"/>
+            <column name="title" value="Cookies"/>
+            <column name="description" value="Fresh cookies"/>
+            <column name="expiry_date" valueComputed="DATE '2025-03-30'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="SNACKS"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/cookies.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="a7b8c9d0-1234-56f7-7890-123456abcdef" type="uuid"/>
+            <column name="title" value="Fish"/>
+            <column name="description" value="Fresh fish"/>
+            <column name="expiry_date" valueComputed="DATE '2025-04-01'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="SEAFOOD"/>
+            <column name="food_details" value="HALLAL"/>
+            <column name="image" valueBlobFile="images/fish.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="b8c9d0e1-2345-67f8-8901-234567abcdef" type="uuid"/>
+            <column name="title" value="Mango"/>
+            <column name="description" value="Fresh mango"/>
+            <column name="expiry_date" valueComputed="DATE '2025-04-05'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="FRUITS"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/mango.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="c9d0e1f2-3456-78f9-9012-345678abcdef" type="uuid"/>
+            <column name="title" value="Milk"/>
+            <column name="description" value="Fresh milk"/>
+            <column name="expiry_date" valueComputed="DATE '2025-04-10'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="DAIRY_PRODUCTS"/>
+            <column name="food_details" value="LACTOSE_FREE"/>
+            <column name="image" valueBlobFile="images/milk.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="d0e1f2a3-4567-89f0-0123-456789abcdef" type="uuid"/>
+            <column name="title" value="Shrimp"/>
+            <column name="description" value="Fresh shrimp"/>
+            <column name="expiry_date" valueComputed="DATE '2025-04-15'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="SEAFOOD"/>
+            <column name="food_details" value="HALLAL"/>
+            <column name="image" valueBlobFile="images/shrip.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+
+        <insert tableName="foods">
+            <column name="id" value="e1f2a3b4-5678-90f1-1234-567890abcdef" type="uuid"/>
+            <column name="title" value="Whole Chicken"/>
+            <column name="description" value="Fresh whole chicken"/>
+            <column name="expiry_date" valueComputed="DATE '2025-04-20'"/>
+            <column name="created_at" valueComputed="DATE '2025-02-11'"/>
+            <column name="is_available" valueBoolean="true"/>
+            <column name="city" value="Vilnius"/>
+            <column name="category" value="MEAT"/>
+            <column name="food_details" value="HALLAL"/>
+            <column name="image" valueBlobFile="images/whole_chicken.jpg"/>
+            <column name="user_id" value="de3a546c-392c-48c0-87dd-601df1036346" type="uuid"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

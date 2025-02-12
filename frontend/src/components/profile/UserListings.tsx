@@ -109,7 +109,7 @@ const UserListings: React.FC = () => {
                                     image={imageSrc}
                                     alt="Listing image"
                                 />
-                                <CardContent sx={{ flex: 1, p: 3 }}>
+                                <CardContent sx={{ flex: 1, p: 3}}>
                                     <Typography variant="body1" sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.1rem' }}>
                                         {item.description}
                                     </Typography>
