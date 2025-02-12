@@ -57,6 +57,5 @@ public class Food {
 
     @ManyToOne
     private User user;
-
 }
 

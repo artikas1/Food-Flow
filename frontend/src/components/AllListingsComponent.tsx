@@ -7,7 +7,6 @@ import {Box} from "@mui/material";
 function AllListingsComponent() {
     return (
         <Box sx={{ marginTop: '5rem'}}>
-            {/* Flexbox container to align Search & Filter horizontally */}
             <Box
                 sx={{
                 display: 'flex',
@@ -20,7 +19,6 @@ function AllListingsComponent() {
                 <Filter />
             </Box>
 
-            {/* FoodCardListings below */}
             <FoodCardListings />
             <FoodCardListings />
             <FoodCardListings />
