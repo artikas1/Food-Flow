@@ -54,7 +54,7 @@ export default function DrawerComponent({ open, onClose }: DrawerProps) {
             role="presentation"
         >
             <List>
-                {['All listings', 'My listings'].map((text, index) => (
+                {['All listings', 'My listings', 'My reservations'].map((text, index) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
                             <ListItemText primary={text} />
