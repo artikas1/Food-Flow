@@ -35,7 +35,8 @@ public class SecurityConfig {
                                         "/swagger-resources/**",
                                         "/search/**",
                                         "/ws/**",
-                                        "/food/categories")
+                                        "/food/categories",
+                                        "/reviews/get")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())

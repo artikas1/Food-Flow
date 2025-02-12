@@ -67,7 +67,7 @@ const UserListings: React.FC = () => {
     }
 
     return (
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: 4, px: 3 }}>
             <Typography variant="h5" sx={{ mb: 2, color: '#AEC761', fontWeight: 600 }}>
                 My Listings
             </Typography>
@@ -101,27 +101,28 @@ const UserListings: React.FC = () => {
                                 <CardMedia
                                     component="img"
                                     sx={{
-                                        width: 160,
-                                        height: 160,
+                                        width: 180,
+                                        height: 180,
                                         objectFit: 'cover',
                                         display: { xs: 'none', sm: 'block' }
                                     }}
                                     image={imageSrc}
                                     alt="Listing image"
                                 />
-                                <CardContent sx={{ flex: 1, p: 3}}>
+                                <CardContent sx={{ flex: 1 }}>
                                     <Typography variant="body1" sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.1rem' }}>
                                         {item.description}
                                     </Typography>
 
                                     <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
                                         <Chip
-                                            label={item.category}
+                                            label={item.category.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
                                             size="small"
                                             sx={{
                                                 borderColor: '#AEC761',
                                                 color: '#AEC761',
-                                                backgroundColor: 'transparent'
+                                                backgroundColor: 'transparent',
+                                                ml: -1
                                             }}
                                         />
                                         <Chip
@@ -132,10 +133,10 @@ const UserListings: React.FC = () => {
                                     </Box>
 
                                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                                        {item.foodDetails}
+                                        {item.foodDetails.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
                                     </Typography>
 
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 2 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
                                         <Typography variant="caption" color="text.secondary">
                                             Expires: {format(new Date(item.expiryDate), 'MMM dd, yyyy')}
                                         </Typography>
@@ -148,7 +149,9 @@ const UserListings: React.FC = () => {
                                                 borderRadius: 2,
                                                 textTransform: 'none',
                                                 px: 2,
-                                                py: 0.5
+                                                py: 0.5,
+                                                mb: -4,
+                                                bottom: 14
                                             }}
                                         >
                                             Manage

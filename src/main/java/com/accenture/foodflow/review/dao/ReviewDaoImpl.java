@@ -4,8 +4,12 @@ import com.accenture.foodflow.common.exception.exceptions.EntityNotFoundExceptio
 import com.accenture.foodflow.review.entity.Review;
 import com.accenture.foodflow.review.integrity.ReviewDataIntegrity;
 import com.accenture.foodflow.review.repository.ReviewRepository;
+import com.accenture.foodflow.user.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,6 +44,11 @@ public class ReviewDaoImpl implements ReviewDao {
     public void deleteReview(UUID reviewId) {
         reviewDataIntegrity.validateReviewExists(reviewId);
         reviewRepository.disableReview(reviewId);
+    }
+
+    @Override
+    public List<Review> getUserReviewsByTargetId(UUID userId) {
+        return reviewRepository.findAllByTargetId(userId);
     }
 
 }
