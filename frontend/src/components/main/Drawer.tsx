@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -21,6 +22,7 @@ interface DrawerProps {
 export default function DrawerComponent({ open, onClose }: DrawerProps) {
     const [openCategories, setOpenCategories] = useState(false);
     const { data: categories, error, loading } = useFetchData(API_ENDPOINTS.CATEGORIES);
+    const navigate = useNavigate();
 
     const formatCategoryName = (category: string) => {
         return category
@@ -35,6 +37,10 @@ export default function DrawerComponent({ open, onClose }: DrawerProps) {
         setOpenCategories(!openCategories);
     };
 
+    const handleMyReservationsClick = () => {
+        navigate('/reservations/user'); // Navigate to the reservations page
+    };
+
     const DrawerList = (
         <Box
             sx={{
@@ -45,9 +51,9 @@ export default function DrawerComponent({ open, onClose }: DrawerProps) {
             role="presentation"
         >
             <List>
-                {['All listings', 'My listings'].map((text) => (
+                {['All listings', 'My listings', 'My reservations'].map((text) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={handleMyReservationsClick}>
                             <ListItemText primary={text} />
                         </ListItemButton>
                     </ListItem>

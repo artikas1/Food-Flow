@@ -9,6 +9,7 @@ import {Main} from "./components/main/Main.tsx";
 import CreateListingPage from "./components/create-listing/CreateFoodFormPage.tsx";
 import Header from "./components/main/Header.tsx";
 import DrawerComponent from "./components/main/Drawer.tsx";
+import ReservationsPage from "./components/main/ReservationsPage.tsx";
 
 function App() {
     return (
@@ -46,6 +47,7 @@ const MainContent: React.FC = () => {
                 </Route>
                 <Route element={<PrivateRoute />}>
                     <Route path="/create-listing" element={<CreateListingPage />} />
+                    <Route path="/reservations/user" element={<ReservationsPage />} />
                 </Route>
             </Routes>
         </>

@@ -6,4 +6,5 @@ export const API_ENDPOINTS = {
     CATEGORIES: `${API_BASE_URL}/food/categories`,
     ALL: `${API_BASE_URL}/food/all`,
     CREATE_FOOD: `${API_BASE_URL}/food`,
+    RESERVATIONS: `${API_BASE_URL}/reservations/user`,
 }
