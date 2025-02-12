@@ -2,7 +2,7 @@ import * as React from "react";
 import { FormControl, InputLabel, Select, MenuItem, CircularProgress, FormHelperText } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { API_ENDPOINTS } from "../../apiConfig.ts";
-import useFetchData from "../../hooks/useFetchData.tsx";
+import { useFetchData } from "../../hooks/useFetchData.tsx";
 
 interface CategorySelectProps {
     selectedCategory: string | null;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {useProtectedAxios} from "./useProtectedAxios.tsx";
 
-const useFetchData = (endpoint: string) => {
+export const useFetchData = (endpoint: string) => {
     const [data, setData] = useState<any>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -24,5 +24,3 @@ const useFetchData = (endpoint: string) => {
 
     return { data, error, loading };
 };
-
-export default useFetchData;

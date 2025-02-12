@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import {API_ENDPOINTS} from "../apiConfig.ts";
-import {useProtectedAxios} from "./useProtectedAxios.tsx";
 
 interface FoodResponseDto {
     id: string;
@@ -21,10 +21,9 @@ export const useFoodSearch = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(10);
+    const [pageSize, setPageSize] = useState<number>(5);
     const [search, setSearch] = useState<string>("");
     const [categories, setCategories] = useState<string[]>([]);
-    const axios = useProtectedAxios();
 
     useEffect(() => {
         const fetchFoods = async () => {

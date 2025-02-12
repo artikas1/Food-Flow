@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import FoodCardListing from "./FoodCardListing.tsx";
 import { useFoodSearch } from "../../hooks/useFoodSearch.tsx";
+import { useFetchData } from "../../hooks/useFetchData.tsx";
 import { Loader } from "../loader/Loader.tsx";
-import { Pagination, Box, TextField, Chip } from "@mui/material";
+import { Pagination, Box, TextField } from "@mui/material";
+import { Filter } from "./Filter.tsx";
+import {API_ENDPOINTS} from "../../apiConfig.ts";
 
 export const Main = () => {
     const { data, loading, error, setPage, setSearch, setCategories } = useFoodSearch();
+    const { data: categories, loading: categoriesLoading } = useFetchData(API_ENDPOINTS.CATEGORIES);
+
     const [searchInput, setSearchInput] = useState("");
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
@@ -20,7 +26,12 @@ export const Main = () => {
         setSearch(searchInput);
     };
 
-    if (loading) {
+    const handleCategoryChange = (selected: string[]) => {
+        setSelectedCategories(selected);
+        setCategories(selected);
+    };
+
+    if (loading || categoriesLoading) {
         return (
             <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                 <Loader />
@@ -46,6 +57,7 @@ export const Main = () => {
                     onChange={handleSearchChange}
                     onKeyPress={(e) => e.key === "Enter" && handleSearchSubmit()}
                 />
+                <Filter value={selectedCategories} onChange={handleCategoryChange} categories={categories || []} />
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, mt: 4 }}>
