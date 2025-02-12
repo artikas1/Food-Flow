@@ -9,8 +9,8 @@ import ListItemText from '@mui/material/ListItemText';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
-import { useState } from "react";
-import { API_ENDPOINTS } from "../../apiConfig.ts";
+import {useState} from "react";
+import {API_ENDPOINTS} from "../../apiConfig.ts";
 import useFetchData from "../../hooks/useFetchData.tsx";
 
 interface DrawerProps {
@@ -18,9 +18,8 @@ interface DrawerProps {
     onClose: () => void;
 }
 
-export default function DrawerComponent({ open, onClose }: DrawerProps) {
+export default function DrawerComponent({open, onClose}: DrawerProps) {
     const [openCategories, setOpenCategories] = useState(false);
-    const { data: categories, error, loading } = useFetchData(API_ENDPOINTS.CATEGORIES);
 
     const formatCategoryName = (category: string) => {
         return category
@@ -48,53 +47,11 @@ export default function DrawerComponent({ open, onClose }: DrawerProps) {
                 {['All listings', 'My listings'].map((text) => (
                     <ListItem key={text} disablePadding>
                         <ListItemButton>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={text}/>
                         </ListItemButton>
                     </ListItem>
                 ))}
             </List>
-            <Divider />
-
-            {/* Categories Dropdown */}
-            <ListItem disablePadding>
-                <ListItemButton onClick={handleToggleCategories}>
-                    <ListItemText primary="Categories" />
-                    {openCategories ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </ListItemButton>
-            </ListItem>
-            <Collapse in={openCategories} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    {loading ? (
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemText primary="Loading categories..." />
-                            </ListItemButton>
-                        </ListItem>
-                    ) : error ? (
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemText primary="Error loading categories" />
-                            </ListItemButton>
-                        </ListItem>
-                    ) : categories && categories.length > 0 ? (
-                        categories.map((category: string) => (
-                            <ListItem key={category} disablePadding>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemText primary={formatCategoryName(category)} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))
-                    ) : (
-                        <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemText primary="No categories available" />
-                            </ListItemButton>
-                        </ListItem>
-                    )}
-                </List>
-            </Collapse>
-
-            <Divider />
         </Box>
     );
 

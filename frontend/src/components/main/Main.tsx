@@ -1,21 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import FoodCardListing from './FoodCardListing.tsx';
-import useFetchAllFoods from '../../hooks/useFetchAllFoods.tsx';
-import { Loader } from '../loader/Loader.tsx';
-import { Pagination, Box } from '@mui/material';
+import React, { useState } from "react";
+import FoodCardListing from "./FoodCardListing.tsx";
+import { useFoodSearch } from "../../hooks/useFoodSearch.tsx";
+import { Loader } from "../loader/Loader.tsx";
+import { Pagination, Box, TextField, Chip } from "@mui/material";
 
 export const Main = () => {
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const { data, error, loading } = useFetchAllFoods(page - 1, pageSize);  // Adjust page indexing
+    const { data, loading, error, setPage, setSearch, setCategories } = useFoodSearch();
+    const [searchInput, setSearchInput] = useState("");
 
     const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-        setPage(value);  // Update the page number
+        setPage(value);
+    };
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchInput(event.target.value);
+    };
+
+    const handleSearchSubmit = () => {
+        setSearch(searchInput);
     };
 
     if (loading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                 <Loader />
             </Box>
         );
@@ -23,7 +30,7 @@ export const Main = () => {
 
     if (error) {
         return (
-            <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Box sx={{ textAlign: "center", mt: 4 }}>
                 <p>Error: {error}</p>
             </Box>
         );
@@ -31,32 +38,44 @@ export const Main = () => {
 
     return (
         <Box sx={{ mt: 4, px: 3 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                {data && data.content.map((food) => (
-                    <FoodCardListing
-                        key={food.id}
-                        title={food.title}
-                        city={food.city}
-                        image={food.image}
-                        rating="4.2/5 (14 reviews)"
-                    />
-                ))}
+            <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mb: 2 }}>
+                <TextField
+                    label="Search"
+                    variant="outlined"
+                    value={searchInput}
+                    onChange={handleSearchChange}
+                    onKeyPress={(e) => e.key === "Enter" && handleSearchSubmit()}
+                />
+            </Box>
 
-                {/* Pagination */}
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, mt: 4 }}>
+                {data?.foods?.length ? (
+                    data.foods.map((food) => (
+                        <FoodCardListing
+                            key={food.id}
+                            title={food.title}
+                            city={food.city}
+                            image={food.image}
+                            rating="4.2/5 (14 reviews)"
+                        />
+                    ))
+                ) : (
+                    <p>No foods available</p>
+                )}
+
                 {data && data.totalPages > 1 && (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                         <Pagination
                             count={data.totalPages}
-                            page={page}
                             onChange={handlePageChange}
                             sx={{
-                                '& .MuiPaginationItem-root': {
-                                    color: '#AEC761',
-                                    '&.Mui-selected': {
-                                        backgroundColor: '#AEC761',
-                                        color: 'white'
-                                    }
-                                }
+                                "& .MuiPaginationItem-root": {
+                                    color: "#AEC761",
+                                    "&.Mui-selected": {
+                                        backgroundColor: "#AEC761",
+                                        color: "white",
+                                    },
+                                },
                             }}
                         />
                     </Box>

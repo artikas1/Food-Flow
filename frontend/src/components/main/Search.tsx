@@ -1,14 +1,15 @@
 import React from "react";
-import {TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 
-function Search(){
-
+function Search({ value, onChange }: { value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) {
     return (
         <TextField
             id="outlined-size-small"
             label="Search"
             variant="outlined"
             size="small"
+            value={value}
+            onChange={onChange}
             sx={{
                 width: "100%",
                 justifyContent: 'top',

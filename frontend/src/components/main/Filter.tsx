@@ -4,11 +4,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function Filter() {
-    const [age, setAge] = React.useState('');
+interface FilterProps {
+    value: string[];  // Change to string[]
+    onChange: (value: string[]) => void;  // Change to string[]
+    categories: string[];
+}
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+export function Filter({ value, onChange, categories }: FilterProps) {
+    const handleChange = (event: SelectChangeEvent<string[]>) => {
+        onChange(event.target.value as unknown as string[]);
     };
 
     return (
@@ -17,9 +21,10 @@ export default function Filter() {
             <Select
                 labelId="demo-select-small-label"
                 id="demo-select-small"
-                value={age}
-                label="Age"
+                value={value}  // Now accepts string[]
+                label="Filter"
                 onChange={handleChange}
+                multiple  // Allow multiple selections
                 sx={{
                     backgroundColor: "white"
                 }}
@@ -27,9 +32,17 @@ export default function Filter() {
                 <MenuItem value="">
                     <em>None</em>
                 </MenuItem>
-                <MenuItem value="Fru">Fru</MenuItem>
-                <MenuItem value="Veg">Veg</MenuItem>
-                <MenuItem value="Dai">Dai</MenuItem>
+                {categories && categories.length > 0 ? (
+                    categories.map((category: string) => (
+                        <MenuItem key={category} value={category}>
+                            {category}
+                        </MenuItem>
+                    ))
+                ) : (
+                    <MenuItem value="">
+                        <em>No categories available</em>
+                    </MenuItem>
+                )}
             </Select>
         </FormControl>
     );
