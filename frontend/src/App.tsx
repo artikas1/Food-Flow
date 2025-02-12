@@ -1,22 +1,34 @@
-// @ts-ignore
-import React, { useState } from "react";
+import React from 'react';
 import './index.css';
-import CreateListingPage from "./components/create-listing/CreateFoodFormPage.tsx";
-
-
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {AuthProvider} from './contexts/AuthContext.tsx';
+import {Login} from "./components/auth/Login.tsx";
+import {SignUp} from "./components/auth/SignUp.tsx";
+import {PrivateRoute} from "./routes/PrivateRoute.tsx";
+import {Main} from "./components/main/Main.tsx";
 
 function App() {
-    const [selectedDetails, setSelectedDetails] = useState<string[]>([]);
-    const [date, setDate] = useState<Date | null>(null);
-    const [photo, setPhoto] = useState<string | null>(null);
-
     return (
-        <div className="App">
-            <CreateListingPage/>
-
-
-        </div>
+        <Router>
+            <AuthProvider>
+                <MainContent/>
+            </AuthProvider>
+        </Router>
     );
 }
+
+const MainContent: React.FC = () => {
+    return (
+        <>
+            <Routes>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/signup" element={<SignUp/>}/>
+                <Route element={<PrivateRoute />}>
+                    <Route path="/" element={<Main />} />
+                </Route>
+            </Routes>
+        </>
+    );
+};
 
 export default App;
