@@ -2,31 +2,24 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import {useState} from "react";
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface DrawerProps {
     open: boolean;
     onClose: () => void;
 }
 
-export default function DrawerComponent({open, onClose}: DrawerProps) {
+export default function DrawerComponent({ open, onClose }: DrawerProps) {
     const [openCategories, setOpenCategories] = useState(false);
+    const navigate = useNavigate();
 
-    const formatCategoryName = (category: string) => {
-        return category
-            .split('_')
-            .map((word, index) => {
-                return index === 0 ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase() : word.toLowerCase();
-            })
-            .join(' ');
-    };
-
-    const handleToggleCategories = () => {
-        setOpenCategories(!openCategories);
+    const handleNavigation = (path: string) => {
+        navigate(path);
+        onClose();
     };
 
     const DrawerList = (
@@ -39,13 +32,21 @@ export default function DrawerComponent({open, onClose}: DrawerProps) {
             role="presentation"
         >
             <List>
-                {['All listings', 'My listings'].map((text) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemText primary={text}/>
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                <ListItem disablePadding>
+                    <ListItemButton onClick={() => handleNavigation('/')}>
+                        <ListItemText primary="All listings" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={() => handleNavigation('/')}>
+                        <ListItemText primary="My listings" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={() => handleNavigation('/my-reservations')}>
+                        <ListItemText primary="My reservations" />
+                    </ListItemButton>
+                </ListItem>
             </List>
         </Box>
     );

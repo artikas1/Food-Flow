@@ -1,5 +1,6 @@
 package com.accenture.foodflow.reservation.dto;
 
+import com.accenture.foodflow.food.dto.FoodResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.UUID;
 public class FoodReservationResponseDto {
 
     private UUID id;
-    private UUID foodId;
+    private FoodResponseDto food;
     private UUID userId;
     private LocalDate reservationDate;
     private LocalDate expirationDate;

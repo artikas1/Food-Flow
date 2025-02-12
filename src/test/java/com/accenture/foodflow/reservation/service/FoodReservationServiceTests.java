@@ -5,6 +5,7 @@ import com.accenture.foodflow.common.exception.exceptions.FoodBadRequestExceptio
 import com.accenture.foodflow.food.dao.FoodDao;
 import com.accenture.foodflow.food.entity.Food;
 import com.accenture.foodflow.food.integrity.FoodDataIntegrity;
+import com.accenture.foodflow.food.mapper.FoodMapper;
 import com.accenture.foodflow.food.service.FoodService;
 import com.accenture.foodflow.food.type.Category;
 import com.accenture.foodflow.reservation.dao.FoodReservationDao;
@@ -58,6 +59,9 @@ class FoodReservationServiceTests {
     @Mock
     private FoodReservationDao foodReservationDao;
 
+    @Mock
+    private FoodMapper foodMapper;
+
     @InjectMocks
     private FoodReservationServiceImpl foodReservationService;
 
@@ -65,6 +69,7 @@ class FoodReservationServiceTests {
     private Food food;
     private FoodReservationResponseDto foodReservationResponseDto;
     private FoodReservation foodReservation;
+
 
     @BeforeEach
     void setUp() {
@@ -102,7 +107,7 @@ class FoodReservationServiceTests {
 
         foodReservationResponseDto = FoodReservationResponseDto.builder()
                 .id(UUID.randomUUID())
-                .foodId(food.getId())
+                .food(foodMapper.toResponseDto(food))
                 .userId(user.getId())
                 .reservationDate(LocalDate.now())
                 .expirationDate(LocalDate.now().plusDays(2))
