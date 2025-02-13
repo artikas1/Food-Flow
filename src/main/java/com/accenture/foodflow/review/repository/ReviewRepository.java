@@ -23,4 +23,5 @@ public interface ReviewRepository extends JpaRepository<Review, UUID> {
     @Query("SELECT AVG(r.rating) FROM Review r WHERE r.target.id = :userId")
     double getAverageRating(UUID userId);
 
+//    List<Review> getReviewsByUserId(UUID userId);
 }

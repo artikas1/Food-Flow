@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Card, CardContent, Button, TextField, Box } from "@mui/material";
-import PhotoUpload from "./PhotoUpload.tsx";
+import { useNavigate } from 'react-router-dom';
 import TitleInput from "./TitleInput.tsx";
 import DescriptionInput from "./DescriptionInput.tsx";
-import ExpiryDatePicker from "./ExpiryDatePicker.tsx";
-import CategorySelect from "./CategorySelect.tsx";
-import FoodDetailsSelect from "./FoodDetailsSelect.tsx";
 import { API_ENDPOINTS } from "../../apiConfig.ts";
 import { useProtectedAxios } from "../../hooks/useProtectedAxios.tsx";
 import React from "react";
+import PhotoUpload from "./PhotoUpload.tsx";
+import ExpiryDatePicker from "./ExpiryDatePicker.tsx";
+import CategorySelect from "./CategorySelect.tsx";
+import FoodDetailsSelect from "./FoodDetailsSelect.tsx";
 
 interface FoodItem {
     id: string;
@@ -30,6 +31,7 @@ interface CreateListingFormProps {
 
 export default function CreateListingForm(props: CreateListingFormProps) {
     const { existingData, isEditMode = false, onCancel, onSuccess } = props;
+    const navigate = useNavigate();
     const [photo, setPhoto] = useState<File | null>(null);
     const [title, setTitle] = useState(existingData?.title || "");
     const [description, setDescription] = useState(existingData?.description || "");
@@ -105,6 +107,7 @@ export default function CreateListingForm(props: CreateListingFormProps) {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             onSuccess?.();
+            navigate("/");
         } catch (error) {
             console.error("Error submitting form:", error);
         }

@@ -10,5 +10,6 @@
     <include file="changes/create-review-table.xml" relativeToChangelogFile="true"/>
     <include file="inserts/insert-into-users-table.xml" relativeToChangelogFile="true"/>
     <include file="inserts/insert-into-foods-table.xml" relativeToChangelogFile="true"/>
+    <include file="inserts/insert-into-reviews-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

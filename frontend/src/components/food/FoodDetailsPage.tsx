@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { useFetchData } from "../../hooks/useFetchData.tsx";
 import { usePostData } from "../../hooks/usePostData.tsx";
 import { API_ENDPOINTS } from "../../apiConfig.ts";
 import { Loader } from "../loader/Loader.tsx";
 import React, { useState, useEffect } from "react";
+import Avatar from '@mui/material/Avatar';
 import axios from "axios";
 import {useProtectedAxios} from "../../hooks/useProtectedAxios.tsx";
 
@@ -13,6 +14,7 @@ const FoodDetailsPage = () => {
     const { postData, loading: reserving, error: reserveError } = usePostData(`${API_ENDPOINTS.RESERVE_FOOD}/${id}`);
     const [isReservedByMe, setIsReservedByMe] = useState(false);
     const axios = useProtectedAxios();
+    const navigate = useNavigate();  // Initialize useNavigate
 
     useEffect(() => {
         const checkReservation = async () => {
@@ -49,6 +51,13 @@ const FoodDetailsPage = () => {
         }
     };
 
+    const handleAvatarClick = () => {
+        if (food.userId) {
+            navigate(`/profile/${food.userId}`);
+        }
+    };
+
+
     if (loading) {
         return (
             <div className="flex justify-center mt-4">
@@ -77,6 +86,9 @@ const FoodDetailsPage = () => {
                 alt={food.title}
                 className="w-64 h-64 object-cover rounded-lg mb-4"
             />
+            <div style={{paddingBottom:"4px", cursor: "pointer"}} onClick={handleAvatarClick}>
+                <Avatar>R</Avatar>
+            </div>
             <p className="text-lg mb-2">{food.description}</p>
             <p className="text-gray-600">Category: {food.category}</p>
             <p className="text-gray-600">City: {food.city}</p>

@@ -15,4 +15,17 @@
             <column name="gender" value="MALE"/>
         </insert>
     </changeSet>
+
+    <changeSet id="2" author="Artiom">
+        <insert tableName="users">
+            <column name="id" value="b8f18e57-0e23-4a5b-8f2d-876f8a00a321"/>
+            <column name="first_name" value="test123"/>
+            <column name="last_name" value="ing123"/>
+            <column name="email" value="test123@gmail.com"/>
+            <column name="password" value="$2a$12$c1GMUTGvpS1eBFeW2eoi3.9Lls9/CqQY.qtMTpkNBcSTmzIzFCi5a"/>
+            <column name="birth_date" value="1999-09-19"/>
+            <column name="gender" value="FEMALE"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

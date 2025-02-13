@@ -8,6 +8,7 @@ interface FoodResponseDto {
     city: string;
     image: string;
     available: string;
+    userId: string;
 }
 
 interface PaginatedFoodResponse {

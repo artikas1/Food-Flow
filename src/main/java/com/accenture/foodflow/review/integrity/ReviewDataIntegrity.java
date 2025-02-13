@@ -15,5 +15,4 @@ public interface ReviewDataIntegrity {
     void validateReviewExists(UUID reviewId);
     void validateUserNotReviewingOther(UpdateReviewRequestDto dto);
     void validateUserNotDeletingOther(UUID reviewId);
-
 }

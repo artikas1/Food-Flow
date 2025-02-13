@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FoodCardListing from "./FoodCardListing.tsx";
 import { useFoodSearch } from "../../hooks/useFoodSearch.tsx";
 import { useFetchData } from "../../hooks/useFetchData.tsx";
+import { useFetchAverageRating } from "../../hooks/useFetchAverageRating.tsx"; // Import the new hook
 import { Loader } from "../loader/Loader.tsx";
 import { Pagination, Box, TextField, Button } from "@mui/material";
 import { Filter } from "./Filter.tsx";
@@ -10,7 +11,7 @@ import { API_ENDPOINTS } from "../../apiConfig.ts";
 export const Main = () => {
     const { data, loading, error, setPage, setSearch, setCategories } = useFoodSearch();
     const { data: categories, loading: categoriesLoading } = useFetchData(API_ENDPOINTS.CATEGORIES);
-
+    const { ratings, loading: ratingsLoading } = useFetchAverageRating(data?.foods); // Use the new hook
     const [searchInput, setSearchInput] = useState("");
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
@@ -39,7 +40,7 @@ export const Main = () => {
         setPage(0);
     };
 
-    if (loading || categoriesLoading) {
+    if (loading || categoriesLoading || ratingsLoading) {
         return (
             <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                 <Loader />
@@ -64,14 +65,35 @@ export const Main = () => {
                     value={searchInput}
                     onChange={handleSearchChange}
                     onKeyPress={(e) => e.key === "Enter" && handleSearchSubmit()}
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            height: '40px',  // Adjust height of the input field container
+                            marginTop: '8px',
+                        },
+                    }}
                 />
-                <Filter value={selectedCategories} onChange={handleCategoryChange} categories={categories || []} />
-                <Button variant="outlined" color="primary" onClick={handleResetFilters}>
+                <div style={{ marginTop: "8px" }}>
+                    <Filter
+                        value={selectedCategories}
+                        onChange={handleCategoryChange}
+                        categories={categories || []}
+                    />
+                </div>
+                <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleResetFilters}
+                    size="small"
+                    sx={{
+                        height: "40px", // Match Select height
+                        marginTop: "8px",
+                    }}
+                >
                     Reset Filters
                 </Button>
             </Box>
 
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, mt: 4 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, mt: 2}}>
                 {data?.foods?.length ? (
                     data.foods.map((food) => (
                         <FoodCardListing
@@ -80,8 +102,10 @@ export const Main = () => {
                             title={food.title}
                             city={food.city}
                             image={food.image}
-                            rating="4.2/5 (14 reviews)"
-                            availability={food.available}
+                            rating={`${ratings[food.id] || "Loading..."} - User Score`}
+                            availability={typeof food.available === 'string'
+                                ? food.available === 'true'
+                                : Boolean(food.available)}
                         />
                     ))
                 ) : (
@@ -105,7 +129,6 @@ export const Main = () => {
                                 },
                             }}
                         />
-
                     </Box>
                 )}
             </Box>

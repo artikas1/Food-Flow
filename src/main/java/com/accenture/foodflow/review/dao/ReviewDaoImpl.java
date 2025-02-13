@@ -53,4 +53,9 @@ public class ReviewDaoImpl implements ReviewDao {
         return reviewRepository.findAllByTargetId(userId);
     }
 
+//    @Override
+//    public List<Review> getReviewsByUserId(UUID userId) {
+//        return reviewRepository.getReviewsByUserId(userId);
+//    }
+
 }

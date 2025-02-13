@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    
+    <changeSet id="1" author="Artiom">
+        <insert tableName="reviews">
+            <column name="id" value="0b734076-2f7b-480e-a3c6-39d7a5b2df45"/>
+            <column name="content" value="Not so good of a food tbh"/>
+            <column name="author_id" value="b8f18e57-0e23-4a5b-8f2d-876f8a00a321"/>
+            <column name="target_id" value="de3a546c-392c-48c0-87dd-601df1036346"/>
+            <column name="rating" value="1"/>
+            <column name="is_disabled" valueBoolean="false"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -12,5 +12,5 @@ public interface ReviewDao {
     void deleteReview(UUID reviewId);
     List<Review> getUserReviewsByTargetId(UUID userId);
     double getAverageRating(UUID userId);
-
+//    List<Review> getReviewsByUserId(UUID userId);
 }

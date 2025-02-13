@@ -22,5 +22,5 @@ export const API_ENDPOINTS = {
     CANCEL_RESERVATION: `${API_BASE_URL}/reservations`,
     CHECK_RESERVATION: `${API_BASE_URL}/reservations/check`,
     CANCEL_RESERVATION_BY_FOOD_ID: `${API_BASE_URL}/reservations/delete`,
-
+    REVIEW: `${API_BASE_URL}/reviews/average-rating`,
 }
