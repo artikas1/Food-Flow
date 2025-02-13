@@ -15,9 +15,10 @@ interface FoodCardListingProps {
     city: string;
     image: string;
     rating: string;
+    availability: boolean;
 }
 
-export default function FoodCardListing({ id, title, city, image, rating }: FoodCardListingProps) {
+export default function FoodCardListing({ id, title, city, image, rating, availability }: FoodCardListingProps) {
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -48,7 +49,7 @@ export default function FoodCardListing({ id, title, city, image, rating }: Food
                 alt="Food picture"
             />
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <CardContent sx={{ flex: '1 0 auto', pb:1 }}>
+                <CardContent sx={{ flex: '1 0 auto', pb: 1 }}>
                     <Typography component="div" variant="h6" sx={{ fontWeight: 600 }}>
                         {title}
                     </Typography>
@@ -66,6 +67,19 @@ export default function FoodCardListing({ id, title, city, image, rating }: Food
                             {city}
                         </Typography>
                     </Box>
+
+                    {/* Display availability here */}
+                    <Typography
+                        variant="subtitle2"
+                        component="div"
+                        sx={{
+                            color: availability ? 'green' : 'red',
+                            fontSize: '0.9rem',
+                            marginTop: 1
+                        }}
+                    >
+                        Availability: {availability ? 'Available' : 'Not Available'}
+                    </Typography>
                 </CardContent>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>

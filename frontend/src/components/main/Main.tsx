@@ -15,7 +15,7 @@ export const Main = () => {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-        setPage(value);
+        setPage(value - 1);
     };
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ export const Main = () => {
         setSearchInput("");
         setSelectedCategories([]);
         setCategories([]);
-        setPage(1);
+        setPage(0);
     };
 
     if (loading || categoriesLoading) {
@@ -81,17 +81,19 @@ export const Main = () => {
                             city={food.city}
                             image={food.image}
                             rating="4.2/5 (14 reviews)"
+                            availability={food.available}
                         />
                     ))
                 ) : (
                     <p>No foods available</p>
                 )}
 
+
                 {data && data.totalPages > 1 && (
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                         <Pagination
-                            count={data.totalPages - 1}
-                            page={data.currentPage - 1}
+                            count={data.totalPages}
+                            page={data.currentPage}
                             onChange={handlePageChange}
                             sx={{
                                 "& .MuiPaginationItem-root": {
@@ -103,6 +105,7 @@ export const Main = () => {
                                 },
                             }}
                         />
+
                     </Box>
                 )}
             </Box>

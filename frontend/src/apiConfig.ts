@@ -18,4 +18,9 @@ export const API_ENDPOINTS = {
     USER_BY_ID: (userId: string) => `${API_BASE_URL}/users/${userId}`,
     DELETE_FOOD: (userId: string)=> `${API_BASE_URL}/food/${userId}`,
     UPDATE_FOOD: (foodId: string)=> `${API_BASE_URL}/food/${foodId}`,
-};
+    RESERVE_FOOD: `${API_BASE_URL}/reservations`,
+    CANCEL_RESERVATION: `${API_BASE_URL}/reservations`,
+    CHECK_RESERVATION: `${API_BASE_URL}/reservations/check`,
+    CANCEL_RESERVATION_BY_FOOD_ID: `${API_BASE_URL}/reservations/delete`,
+
+}

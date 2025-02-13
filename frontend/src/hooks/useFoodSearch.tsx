@@ -7,6 +7,7 @@ interface FoodResponseDto {
     title: string;
     city: string;
     image: string;
+    available: string;
 }
 
 interface PaginatedFoodResponse {
@@ -20,7 +21,7 @@ export const useFoodSearch = () => {
     const [data, setData] = useState<PaginatedFoodResponse | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [page, setPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(0);
     const [pageSize] = useState<number>(5);
     const [search, setSearch] = useState<string>("");
     const [categories, setCategories] = useState<string[]>([]);
@@ -53,12 +54,12 @@ export const useFoodSearch = () => {
 
     const handleSetSearch = (query: string) => {
         setSearch(query);
-        setPage(1);
+        setPage(0);
     };
 
     const handleSetCategories = (newCategories: string[]) => {
         setCategories(newCategories);
-        setPage(1);
+        setPage(0);
     };
 
     return { data, loading, error, setPage, setSearch: handleSetSearch, setCategories: handleSetCategories };

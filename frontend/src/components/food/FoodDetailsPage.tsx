@@ -1,12 +1,53 @@
 import { useParams } from "react-router-dom";
 import { useFetchData } from "../../hooks/useFetchData.tsx";
+import { usePostData } from "../../hooks/usePostData.tsx";
 import { API_ENDPOINTS } from "../../apiConfig.ts";
 import { Loader } from "../loader/Loader.tsx";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import {useProtectedAxios} from "../../hooks/useProtectedAxios.tsx";
 
 const FoodDetailsPage = () => {
     const { id } = useParams();
     const { data: food, error, loading } = useFetchData(`${API_ENDPOINTS.GET_FOOD}/${id}`);
+    const { postData, loading: reserving, error: reserveError } = usePostData(`${API_ENDPOINTS.RESERVE_FOOD}/${id}`);
+    const [isReservedByMe, setIsReservedByMe] = useState(false);
+    const axios = useProtectedAxios();
+
+    useEffect(() => {
+        const checkReservation = async () => {
+            try {
+                const response = await axios.get(`${API_ENDPOINTS.CHECK_RESERVATION}`, {
+                    params: { foodId: id }
+                });
+                setIsReservedByMe(response.data.isReservedByMe);
+            } catch (err) {
+                console.error("Failed to check reservation status.");
+            }
+        };
+
+        checkReservation();
+    }, [id]);
+
+    const handleReserve = async () => {
+        const success = await postData();
+        if (success) {
+            alert("Food reserved successfully!");
+            setIsReservedByMe(true);
+        }
+    };
+
+    const handleCancelReservation = async () => {
+        try {
+            await axios.delete(`${API_ENDPOINTS.CANCEL_RESERVATION_BY_FOOD_ID}`, {
+                params: { foodId: id }
+            });
+            alert("Reservation cancelled successfully!");
+            setIsReservedByMe(false);
+        } catch (err) {
+            alert("Failed to cancel reservation.");
+        }
+    };
 
     if (loading) {
         return (
@@ -41,6 +82,27 @@ const FoodDetailsPage = () => {
             <p className="text-gray-600">City: {food.city}</p>
             <p className="text-gray-600">Available: {food.available ? "Yes" : "No"}</p>
             <p className="text-gray-600">Expiry Date: {formattedExpiryDate}</p>
+
+            {reserveError && <p className="text-red-500 mt-2">{reserveError}</p>}
+
+            {food.available && !isReservedByMe ? (
+                <button
+                    onClick={handleReserve}
+                    disabled={reserving}
+                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+                >
+                    {reserving ? "Reserving..." : "Reserve"}
+                </button>
+            ) : (
+                <button
+                    onClick={handleCancelReservation}
+                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                >
+                    Cancel Reservation
+                </button>
+            )}
+
+
         </div>
     );
 };
