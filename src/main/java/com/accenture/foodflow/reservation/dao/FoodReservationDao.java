@@ -12,5 +12,8 @@ public interface FoodReservationDao {
     FoodReservation findById(UUID reservationId);
     Page<FoodReservation> findAllUserReservations(UUID userId, Pageable pageable);
     void deleteReservation(UUID reservationId);
+    Boolean existsByFoodIdAndId(UUID foodId, UUID userId);
+    void deleteReservationByFoodId(UUID foodId);
 
+    FoodReservation findReservationByFoodId(UUID foodId);
 }

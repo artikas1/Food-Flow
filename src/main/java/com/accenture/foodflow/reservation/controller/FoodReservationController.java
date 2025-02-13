@@ -56,6 +56,21 @@ public class FoodReservationController {
         return ResponseEntity.ok(foodReservationService.findAllUserReservations(PageRequest.of(page, size)));
     }
 
+    @Operation(summary = "Delete reservation by food id", description = "Delete reservation by food id")
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteReservationByFoodId(
+            @Parameter(description = "ID of the reserved food item to delete") @RequestParam UUID foodId) {
+        foodReservationService.deleteReservationByFoodId(foodId);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Check reservation", description = "Check if reservation is made by currently logged in user")
+    @GetMapping("/check")
+    public ResponseEntity<Boolean> checkReservation(
+            @Parameter(description = "ID of the reserved food item to check") @RequestParam UUID foodId) {
+        return ResponseEntity.ok(foodReservationService.checkReservation(foodId));
+    }
+
     private void invalidatePageAndSize(int page, int size) {
         if (page < 0 || size < 0 || size > MAX_PAGE_SIZE) {
             throw new InvalidPageException(INVALID_PAGE_OR_SIZE);

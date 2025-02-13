@@ -11,5 +11,7 @@ public interface FoodReservationService {
     FoodReservationResponseDto reserveFood(UUID foodId);
     void cancelReservation(UUID reservationId);
     Page<FoodReservationResponseDto> findAllUserReservations(Pageable pageable);
+    Boolean checkReservation(UUID foodId);
 
+    void deleteReservationByFoodId(UUID foodId);
 }

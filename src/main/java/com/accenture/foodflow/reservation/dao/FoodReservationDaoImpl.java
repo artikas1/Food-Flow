@@ -49,4 +49,26 @@ public class FoodReservationDaoImpl implements FoodReservationDao {
 
         foodReservationRepository.deleteById(reservationId);
     }
+
+    @Override
+    public Boolean existsByFoodIdAndId(UUID foodId, UUID userId) {
+        foodReservationDataIntegrity.validateId(foodId);
+        userDataIntegrity.validateId(userId);
+
+        return foodReservationRepository.existsByFoodIdAndUserId(foodId, userId);
+    }
+
+    @Override
+    public void deleteReservationByFoodId(UUID foodId) {
+        foodReservationDataIntegrity.validateId(foodId);
+
+        foodReservationRepository.deleteFoodReservationByFood_Id(foodId);
+    }
+
+    @Override
+    public FoodReservation findReservationByFoodId(UUID foodId) {
+        foodReservationDataIntegrity.validateId(foodId);
+
+        return foodReservationRepository.findFoodReservationByFood_Id(foodId);
+    }
 }

@@ -69,5 +69,29 @@ public class FoodReservationServiceImpl implements FoodReservationService {
                 .map(foodReservationMapper::toFoodResponseDto);
     }
 
+    @Override
+    public Boolean checkReservation(UUID foodId) {
+        foodDataIntegrity.validateId(foodId);
+
+        var user = authenticationService.getAuthenticatedUser();
+
+        return foodReservationDao.existsByFoodIdAndId(foodId, user.getId());
+    }
+
+    @Override
+    public void deleteReservationByFoodId(UUID foodId) {
+        foodDataIntegrity.validateId(foodId);
+
+        var user = authenticationService.getAuthenticatedUser();
+        var food = foodService.getFoodEntityById(foodId);
+        var reservation = foodReservationDao.findReservationByFoodId(foodId);
+
+        authenticationService.checkAuthorizationBetweenUserAndReservation(user, reservation);
+
+        food.setAvailable(true);
+        foodDao.saveFood(food);
+
+        foodReservationDao.deleteReservationByFoodId(foodId);
+    }
 
 }

@@ -15,4 +15,12 @@ public interface FoodReservationRepository extends JpaRepository<FoodReservation
     @Transactional
     Page<FoodReservation> findAllByUserId(UUID userId, Pageable pageable);
 
+    Boolean existsByFoodIdAndUserId(UUID foodId, UUID userId);
+
+    @Transactional
+    void deleteFoodReservationByFood_Id(UUID foodId);
+
+    @Transactional
+    FoodReservation findFoodReservationByFood_Id(UUID foodId);
+
 }
