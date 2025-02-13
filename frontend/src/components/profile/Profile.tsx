@@ -9,7 +9,6 @@ import EmailSection from './EmailSection.tsx';
 import ChangePasswordButton from './ChangePasswordButton.tsx';
 import UserListings from './UserListings.tsx';
 import ReviewsSection from './ReviewsSection.tsx';
-import ResponsiveAppBar from '../Header.tsx';
 
 interface UserProfile {
     id: string;
@@ -84,7 +83,6 @@ const Profile: React.FC = () => {
 
     return (
         <div className="flex flex-col w-full h-screen">
-            <ResponsiveAppBar onMenuIconClick={() => {}} />
             <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
                 <Paper elevation={3} sx={{ p: 4, borderRadius: 4, backgroundColor: '#f5f5f5' }}>
                     <ProfileHeader

@@ -3,13 +3,14 @@ import React from "react";
 type PhotoUploadProps = {
     photo: File | null;
     setPhoto: React.Dispatch<React.SetStateAction<File | null>>;
+    existingImageUrl?: string;
 };
 
-export default function PhotoUpload({ photo, setPhoto }: PhotoUploadProps) {
+export default function PhotoUpload({ photo, setPhoto, existingImageUrl }: PhotoUploadProps) {
     const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setPhoto(file); // Directly set the file object
+            setPhoto(file);
         }
     };
 
@@ -28,8 +29,14 @@ export default function PhotoUpload({ photo, setPhoto }: PhotoUploadProps) {
             >
                 {photo ? (
                     <img
-                        src={URL.createObjectURL(photo)} // Only call createObjectURL once
+                        src={URL.createObjectURL(photo)}
                         alt="Selected photo"
+                        className="max-w-full max-h-72 object-cover rounded-md"
+                    />
+                ) : existingImageUrl ? (
+                    <img
+                        src={existingImageUrl}
+                        alt="Existing photo"
                         className="max-w-full max-h-72 object-cover rounded-md"
                     />
                 ) : (

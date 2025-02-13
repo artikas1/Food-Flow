@@ -17,4 +17,5 @@ export const API_ENDPOINTS = {
     REVIEWS_GET: `${API_BASE_URL}/reviews/get`,
     USER_BY_ID: (userId: string) => `${API_BASE_URL}/users/${userId}`,
     DELETE_FOOD: (userId: string)=> `${API_BASE_URL}/food/${userId}`,
+    UPDATE_FOOD: (foodId: string)=> `${API_BASE_URL}/food/${foodId}`,
 };

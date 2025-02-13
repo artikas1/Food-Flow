@@ -11,6 +11,7 @@ import Header from "./components/main/Header.tsx";
 import DrawerComponent from "./components/main/Drawer.tsx";
 import ReservationsPage from "./components/reservation/ReservationsPage.tsx";
 import FoodDetailsPage from "./components/food/FoodDetailsPage.tsx";
+import Profile from "./components/profile/Profile.tsx";
 
 function App() {
     return (
@@ -43,6 +44,9 @@ const MainContent: React.FC = () => {
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/signup" element={<SignUp/>}/>
+                <Route element={<PrivateRoute />}>
+                    <Route path="/profile" element={<Profile />} />
+                </Route>
                 <Route element={<PrivateRoute />}>
                     <Route path="/" element={<Main />} />
                 </Route>

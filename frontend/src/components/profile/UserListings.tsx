@@ -4,9 +4,11 @@ import axios from 'axios';
 import { API_ENDPOINTS } from '../../apiConfig.ts';
 import { useAuth } from '../../contexts/AuthContext.tsx';
 import { format } from 'date-fns';
+import CreateListingForm from '../create-listing/CreateListingForm.tsx';
 
 interface FoodItem {
     id: string;
+    title: string;
     description: string;
     category: string;
     city: string;
@@ -26,6 +28,7 @@ const UserListings: React.FC<Props> = ({ userId, isCurrentUser }) => {
     const [error, setError] = useState('');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [editingItem, setEditingItem] = useState<FoodItem | null>(null);
     const { getAccessToken } = useAuth();
 
     const fetchListings = async (page: number) => {
@@ -93,7 +96,17 @@ const UserListings: React.FC<Props> = ({ userId, isCurrentUser }) => {
                 {isCurrentUser ? 'My Listings' : 'Listings'}
             </Typography>
 
-            {listings.length === 0 ? (
+            {editingItem ? (
+                <CreateListingForm
+                    existingData={editingItem}
+                    isEditMode={true}
+                    onCancel={() => setEditingItem(null)}
+                    onSuccess={() => {
+                        setEditingItem(null);
+                        fetchListings(page);
+                    }}
+                />
+            ) : listings.length === 0 ? (
                 <Paper variant="outlined" sx={{ p: 4, textAlign: 'center' }}>
                     <Typography variant="body1" color="text.secondary">
                         No active listings found
@@ -174,7 +187,7 @@ const UserListings: React.FC<Props> = ({ userId, isCurrentUser }) => {
                                                         px: 2,
                                                         py: 0.5,
                                                     }}
-                                                    onClick={() => console.log('Update clicked')}
+                                                    onClick={() => setEditingItem(item)}
                                                 >
                                                     Update
                                                 </Button>
