@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FoodCardListing from "./FoodCardListing.tsx";
 import { useFoodSearch } from "../../hooks/useFoodSearch.tsx";
 import { useFetchData } from "../../hooks/useFetchData.tsx";
+import { useProtectedAxios } from "../../hooks/useProtectedAxios.tsx"; // Import useProtectedAxios
 import { Loader } from "../loader/Loader.tsx";
 import { Pagination, Box, TextField, Button } from "@mui/material";
 import { Filter } from "./Filter.tsx";
@@ -10,9 +11,32 @@ import { API_ENDPOINTS } from "../../apiConfig.ts";
 export const Main = () => {
     const { data, loading, error, setPage, setSearch, setCategories } = useFoodSearch();
     const { data: categories, loading: categoriesLoading } = useFetchData(API_ENDPOINTS.CATEGORIES);
+    const [ratings, setRatings] = useState<{ [key: string]: string }>({});
+    const axios = useProtectedAxios();
 
     const [searchInput, setSearchInput] = useState("");
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (data?.foods) {
+            const fetchRatings = async () => {
+                const ratingsMap: { [key: string]: string } = {};
+
+                for (const food of data.foods) {
+                    try {
+                        const response = await axios.get(`${API_ENDPOINTS.REVIEW}?userId=${food.userId}`);
+                        ratingsMap[food.id] = `${response.data.toFixed(1)}/5`; // Format the rating
+                    } catch (err) {
+                        ratingsMap[food.id] = "N/A"; // Handle errors
+                    }
+                }
+
+                setRatings(ratingsMap);
+            };
+
+            fetchRatings();
+        }
+    }, [data, axios]);
 
     const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
@@ -66,7 +90,12 @@ export const Main = () => {
                     onKeyPress={(e) => e.key === "Enter" && handleSearchSubmit()}
                 />
                 <Filter value={selectedCategories} onChange={handleCategoryChange} categories={categories || []} />
-                <Button variant="outlined" color="primary" onClick={handleResetFilters}>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleResetFilters}
+                    size="small"
+                >
                     Reset Filters
                 </Button>
             </Box>
@@ -79,7 +108,7 @@ export const Main = () => {
                             title={food.title}
                             city={food.city}
                             image={food.image}
-                            rating="4.2/5 (14 reviews)"
+                            rating={ratings[food.id] || "Loading..."} // Use the pre-fetched rating
                         />
                     ))
                 ) : (

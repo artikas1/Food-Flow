@@ -7,6 +7,7 @@ interface FoodResponseDto {
     title: string;
     city: string;
     image: string;
+    userId: string;
 }
 
 interface PaginatedFoodResponse {

@@ -7,5 +7,5 @@ export const API_ENDPOINTS = {
     DETAILS: `${API_BASE_URL}/food/details`,
     ALL: `${API_BASE_URL}/search`,
     CREATE_FOOD: `${API_BASE_URL}/food`,
-
+    REVIEW: `${API_BASE_URL}/reviews/average-rating`,
 }
