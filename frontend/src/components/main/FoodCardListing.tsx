@@ -7,16 +7,23 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { IoLocationOutline } from "react-icons/io5";
 import Avatar from "@mui/material/Avatar";
+import { useNavigate } from "react-router-dom";
 
 interface FoodCardListingProps {
+    id: string;
     title: string;
     city: string;
     image: string;
     rating: string;
 }
 
-export default function FoodCardListing({ title, city, image, rating }: FoodCardListingProps) {
+export default function FoodCardListing({ id, title, city, image, rating }: FoodCardListingProps) {
     const theme = useTheme();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/listings/${id}`);
+    };
 
     return (
         <Card
@@ -31,7 +38,9 @@ export default function FoodCardListing({ title, city, image, rating }: FoodCard
                     cursor: 'pointer',
                     backgroundColor: theme.palette.grey[200],
                 },
-            }}>
+            }}
+            onClick={handleClick}
+        >
             <CardMedia
                 component="img"
                 sx={{ width: 151, height: 151, objectFit: 'cover' }}

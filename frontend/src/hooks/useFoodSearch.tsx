@@ -34,7 +34,7 @@ export const useFoodSearch = () => {
                 const response = await axios.get<PaginatedFoodResponse>(API_ENDPOINTS.ALL, {
                     params: {
                         limit: pageSize,
-                        offset: (page - 1) * pageSize,
+                        offset: page,
                         search: search || undefined,
                         categories: categories.length > 0 ? categories.join(",") : undefined,
                     },

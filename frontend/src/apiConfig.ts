@@ -8,5 +8,6 @@ export const API_ENDPOINTS = {
     ALL: `${API_BASE_URL}/search`,
     CREATE_FOOD: `${API_BASE_URL}/food`,
     USER_RESERVATIONS: `${API_BASE_URL}/reservations/user`,
+    GET_FOOD: `${API_BASE_URL}/food`,
 
 }

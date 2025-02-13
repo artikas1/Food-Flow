@@ -76,6 +76,7 @@ export const Main = () => {
                     data.foods.map((food) => (
                         <FoodCardListing
                             key={food.id}
+                            id={food.id}
                             title={food.title}
                             city={food.city}
                             image={food.image}
@@ -89,8 +90,8 @@ export const Main = () => {
                 {data && data.totalPages > 1 && (
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
                         <Pagination
-                            count={data.totalPages}
-                            page={data.currentPage}
+                            count={data.totalPages - 1}
+                            page={data.currentPage - 1}
                             onChange={handlePageChange}
                             sx={{
                                 "& .MuiPaginationItem-root": {
