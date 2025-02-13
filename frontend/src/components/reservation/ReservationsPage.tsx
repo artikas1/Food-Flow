@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useFetchUserReservations } from "../../hooks/useFetchUserReservations.tsx";
-import { Typography, Box, Pagination, Chip } from "@mui/material";
+import { Typography, Box, Pagination, Chip, Button } from "@mui/material";
 import { Loader } from "../loader/Loader.tsx";
 import FoodCardListing from "../main/FoodCardListing.tsx";
+import { API_ENDPOINTS } from "../../apiConfig.ts";
+import { useProtectedAxios } from "../../hooks/useProtectedAxios.tsx";
 
 export default function ReservationsPage() {
     const [page, setPage] = useState(0);
     const pageSize = 5;
-
-    const { data, error, loading } = useFetchUserReservations({ page, pageSize });
+    const { data, error, loading, refetch } = useFetchUserReservations({ page, pageSize });
+    const axios = useProtectedAxios();
 
     const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
@@ -20,6 +22,17 @@ export default function ReservationsPage() {
             month: "long",
             day: "numeric",
         }).format(new Date(dateString));
+    };
+
+    const cancelReservation = async (reservationId: string) => {
+        try {
+            await axios.delete(`${API_ENDPOINTS.CANCEL_RESERVATION}/${reservationId}`);
+            alert("Reservation canceled successfully!");
+            refetch();  // Trigger refetch to refresh the data after cancellation
+        } catch (error) {
+            console.error("Error canceling reservation:", error);
+            alert("Failed to cancel reservation. Please try again later.");
+        }
     };
 
     return (
@@ -39,6 +52,7 @@ export default function ReservationsPage() {
                 {data?.content.map((reservation) => (
                     <Box key={reservation.id} sx={{ display: "flex", alignItems: "center", gap: 2, p: 2, border: "1px solid #ddd", borderRadius: "8px" }}>
                         <FoodCardListing
+                            id={reservation.food.id}
                             title={reservation.food.title}
                             city={reservation.food.city}
                             image={reservation.food.image}
@@ -56,6 +70,16 @@ export default function ReservationsPage() {
                                 color={reservation.isCancelled ? "error" : "success"}
                                 sx={{ fontWeight: "bold", fontSize: "0.85rem" }}
                             />
+                            {!reservation.isCancelled && (
+                                <Button
+                                    onClick={() => cancelReservation(reservation.id)}
+                                    color="error"
+                                    variant="contained"
+                                    sx={{ mt: 2 }}
+                                >
+                                    Cancel Reservation
+                                </Button>
+                            )}
                         </Box>
                     </Box>
                 ))}

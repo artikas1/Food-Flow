@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useProtectedAxios } from "./useProtectedAxios.tsx";
-import {API_ENDPOINTS} from "../apiConfig.ts";
+import { API_ENDPOINTS } from "../apiConfig.ts";
 
 interface FoodResponseDto {
     id: string;
@@ -37,26 +37,31 @@ export const useFetchUserReservations = ({ page, pageSize }: FetchReservationsPa
     const [loading, setLoading] = useState<boolean>(true);
     const axios = useProtectedAxios();
 
-    useEffect(() => {
-        const fetchReservations = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get<PaginatedResponse>(API_ENDPOINTS.USER_RESERVATIONS, {
-                    params: {
-                        page,
-                        pageSize,
-                    },
-                });
-                setData(response.data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : "An error occurred");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchReservations();
+    const fetchReservations = useCallback(async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get<PaginatedResponse>(API_ENDPOINTS.USER_RESERVATIONS, {
+                params: {
+                    page,
+                    pageSize,
+                },
+            });
+            setData(response.data);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "An error occurred");
+        } finally {
+            setLoading(false);
+        }
     }, [axios, page, pageSize]);
 
-    return { data, error, loading };
+    useEffect(() => {
+        fetchReservations();
+    }, [fetchReservations]);
+
+    // Return refetch function
+    const refetch = () => {
+        fetchReservations();
+    };
+
+    return { data, error, loading, refetch };
 };
