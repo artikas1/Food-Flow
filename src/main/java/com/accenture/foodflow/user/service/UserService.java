@@ -6,6 +6,8 @@ import com.accenture.foodflow.user.dto.UserResponseDto;
 import java.util.UUID;
 
 public interface UserService {
-    UserResponseDto getUserById(UUID id);
+    UserResponseDto getUser();
     void changePassword(ChangePasswordRequestDto changePasswordRequestDto);
+    UserResponseDto getUserById(UUID id);
+
 }

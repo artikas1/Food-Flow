@@ -2,6 +2,7 @@ package com.accenture.foodflow.review.controller;
 
 import com.accenture.foodflow.review.dto.request.SubmitReviewRequestDto;
 import com.accenture.foodflow.review.dto.request.UpdateReviewRequestDto;
+import com.accenture.foodflow.review.dto.response.GetAllReviewResponseDto;
 import com.accenture.foodflow.review.dto.response.ReviewResponseDto;
 import com.accenture.foodflow.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +12,13 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +28,13 @@ import java.util.UUID;
 public class ReviewController {
 
     private final ReviewService reviewService;
+
+    @Operation(summary = "Get reviews", description = "Retrieves all reviews for a food item")
+    @PostMapping("/get")
+    public ResponseEntity<List<GetAllReviewResponseDto>> getReviews(
+            @Parameter(description = "ID of user") @RequestParam("userId") UUID userId) {
+        return ResponseEntity.ok(reviewService.getUserReviews(userId));
+    }
 
     @Operation(summary = "Create a new review", description = "Submits a new review for a food item")
     @PostMapping("/create")

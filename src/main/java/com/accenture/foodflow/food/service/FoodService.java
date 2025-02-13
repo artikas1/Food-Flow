@@ -15,6 +15,7 @@ public interface FoodService {
     Food getFoodEntityById(UUID id);
     FoodResponseDto updateFoodById(UUID id, FoodRequestDto foodRequestDto);
     void deleteFoodById(UUID id);
-    Page<FoodResponseDto> getAllFoods(Pageable pageable);
+    Page<FoodResponseDto> getAllUserFoods(Pageable pageable);
+    Page<FoodResponseDto> getAllFoodsByUserId(Pageable pageable, UUID userId);
 
 }

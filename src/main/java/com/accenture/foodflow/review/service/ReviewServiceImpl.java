@@ -4,13 +4,17 @@ import com.accenture.foodflow.auth.service.authentication.AuthenticationService;
 import com.accenture.foodflow.review.dao.ReviewDao;
 import com.accenture.foodflow.review.dto.request.SubmitReviewRequestDto;
 import com.accenture.foodflow.review.dto.request.UpdateReviewRequestDto;
+import com.accenture.foodflow.review.dto.response.GetAllReviewResponseDto;
 import com.accenture.foodflow.review.dto.response.ReviewResponseDto;
 import com.accenture.foodflow.review.entity.Review;
 import com.accenture.foodflow.review.integrity.ReviewDataIntegrity;
 import com.accenture.foodflow.review.mapper.ReviewMapper;
+import com.accenture.foodflow.user.dto.UserResponseDto;
 import com.accenture.foodflow.user.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -54,6 +58,32 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public double getAverageRating(UUID userId) {
         return reviewDao.getAverageRating(userId);
+    }
+
+    @Override
+    public List<GetAllReviewResponseDto> getUserReviews(UUID foodId) {
+        List<Review> reviews = reviewDao.getUserReviewsByTargetId(foodId);
+        List<GetAllReviewResponseDto> responseDtos = new ArrayList<>();
+
+        for (Review review : reviews) {
+            GetAllReviewResponseDto getAllReviewResponseDto = new GetAllReviewResponseDto();
+            getAllReviewResponseDto.setReview(reviewMapper.toDto(review));
+
+            User user = review.getAuthor();
+            UserResponseDto userResponseDto = UserResponseDto.builder()
+                    .id(user.getId())
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .birthDate(user.getBirthDate())
+                    .gender(user.getGender())
+                    .build();
+
+            getAllReviewResponseDto.setUser(userResponseDto);
+            responseDtos.add(getAllReviewResponseDto);
+        }
+
+        return responseDtos;
     }
 
 }

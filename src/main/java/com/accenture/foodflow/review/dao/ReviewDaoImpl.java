@@ -6,6 +6,7 @@ import com.accenture.foodflow.review.integrity.ReviewDataIntegrity;
 import com.accenture.foodflow.review.repository.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -45,6 +46,11 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public double getAverageRating(UUID userId) {
         return reviewRepository.getAverageRating(userId);
+    }
+
+    @Override
+    public List<Review> getUserReviewsByTargetId(UUID userId) {
+        return reviewRepository.findAllByTargetId(userId);
     }
 
 }

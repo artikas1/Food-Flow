@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -19,11 +20,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "Get user by ID", description = "Retrieves user details by their unique ID")
-    @GetMapping("/{id}")
-    public UserResponseDto getUserById(
-            @Parameter(description = "Unique ID of the user") @PathVariable UUID id) {
-        return userService.getUserById(id);
+    @Operation(summary = "Get user by JWT token", description = "Retrieves user details by their JWT token")
+    @GetMapping("/me")
+    public UserResponseDto getUserById(){
+        return userService.getUser();
     }
 
     @Operation(summary = "Change user password", description = "Allows a user to change their password")
@@ -32,6 +32,13 @@ public class UserController {
             @Parameter(description = "Request body containing old and new passwords") @RequestBody ChangePasswordRequestDto changePasswordRequestDto) {
         userService.changePassword(changePasswordRequestDto);
         return ResponseEntity.ok("Password changed successfully");
+    }
+
+    @Operation(summary = "Get user by ID", description = "Retrieves user details by their ID")
+    @GetMapping("/{userId}")
+    public UserResponseDto getUserById(
+            @Parameter(description = "ID of the user") @PathVariable UUID userId) {
+        return userService.getUserById(userId);
     }
 
 }

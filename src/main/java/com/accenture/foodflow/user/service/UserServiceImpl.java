@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,16 +22,8 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationService authenticationService;
 
     @Override
-    public UserResponseDto getUserById(UUID id) {
-        validateUserId(id);
-
-        var optionalUser = userDao.findUserById(id);
-
-        if (optionalUser.isEmpty()) {
-            throw new IllegalArgumentException("User not found");
-        }
-
-        var user = optionalUser.get();
+    public UserResponseDto getUser() {
+        User user = authenticationService.getAuthenticatedUser();
 
         return UserResponseDto.builder()
                 .id(user.getId())
@@ -40,12 +33,6 @@ public class UserServiceImpl implements UserService {
                 .birthDate(user.getBirthDate())
                 .gender(user.getGender())
                 .build();
-    }
-
-    private void validateUserId(UUID id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
-        }
     }
 
     @Override
@@ -64,6 +51,26 @@ public class UserServiceImpl implements UserService {
         currentUser.setPassword(passwordEncoder.encode(changePasswordRequestDto.getNewPassword()));
 
         userDao.saveUser(currentUser);
+    }
+
+    @Override
+    public UserResponseDto getUserById(UUID userId) {
+        Optional<User> optionalUser = userDao.findById(userId);
+
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        User user = optionalUser.get();
+
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .birthDate(user.getBirthDate())
+                .gender(user.getGender())
+                .build();
     }
 
 }
