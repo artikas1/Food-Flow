@@ -50,6 +50,19 @@ const UserListings: React.FC<Props> = ({ userId, isCurrentUser }) => {
         }
     };
 
+    const handleDelete = async (foodId: string) => {
+        try {
+            const token = getAccessToken();
+            await axios.delete(API_ENDPOINTS.DELETE_FOOD(foodId), {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true
+            });
+            await fetchListings(page);
+        } catch (err) {
+            setError('Failed to delete listing');
+        }
+    };
+
     useEffect(() => {
         fetchListings(page);
     }, [page]);
@@ -149,22 +162,38 @@ const UserListings: React.FC<Props> = ({ userId, isCurrentUser }) => {
                                             Expires: {format(new Date(item.expiryDate), 'MMM dd, yyyy')}
                                         </Typography>
                                         {isCurrentUser && (
-                                            <Button
-                                                size="small"
-                                                variant="contained"
-                                                sx={{
-                                                    backgroundColor: '#AEC761',
-                                                    '&:hover': { backgroundColor: '#94A857' },
-                                                    borderRadius: 2,
-                                                    textTransform: 'none',
-                                                    px: 2,
-                                                    py: 0.5,
-                                                    mb: -4,
-                                                    bottom: 14
-                                                }}
-                                            >
-                                                Manage
-                                            </Button>
+                                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                                <Button
+                                                    size="small"
+                                                    variant="contained"
+                                                    sx={{
+                                                        backgroundColor: '#AEC761',
+                                                        '&:hover': { backgroundColor: '#94A857' },
+                                                        borderRadius: 2,
+                                                        textTransform: 'none',
+                                                        px: 2,
+                                                        py: 0.5,
+                                                    }}
+                                                    onClick={() => console.log('Update clicked')}
+                                                >
+                                                    Update
+                                                </Button>
+                                                <Button
+                                                    size="small"
+                                                    variant="contained"
+                                                    sx={{
+                                                        backgroundColor: '#ff4444',
+                                                        '&:hover': { backgroundColor: '#cc0000' },
+                                                        borderRadius: 2,
+                                                        textTransform: 'none',
+                                                        px: 2,
+                                                        py: 0.5,
+                                                    }}
+                                                    onClick={() => handleDelete(item.id)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </Box>
                                         )}
                                     </Box>
                                 </CardContent>

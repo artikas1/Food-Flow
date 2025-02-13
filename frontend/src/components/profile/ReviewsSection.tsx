@@ -92,15 +92,19 @@ const ReviewsSection: React.FC<{ userId: string; targetId: string; isCurrentUser
                 )}
 
                 <Box mt={4}>
-                    {reviews.map((review, index) => (
-                        <Paper key={index} sx={{ p: 2, my: 2 }}>
-                            <Typography>{review.review.content}</Typography>
-                            <Rating value={review.review.rating} readOnly />
-                            <Typography variant="caption">
-                                By {review.user.firstName} {review.user.lastName}
-                            </Typography>
-                        </Paper>
-                    ))}
+                    {reviews.length === 0 ? (
+                        <Typography align="center">No reviews yet</Typography>
+                    ) : (
+                        reviews.map((review, index) => (
+                            <Paper key={index} sx={{ p: 2, my: 2 }}>
+                                <Typography>{review.review.content}</Typography>
+                                <Rating value={review.review.rating} readOnly />
+                                <Typography variant="caption">
+                                    By {review.user.firstName} {review.user.lastName}
+                                </Typography>
+                            </Paper>
+                        ))
+                    )}
                 </Box>
             </Paper>
         </Box>
