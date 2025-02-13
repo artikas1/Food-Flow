@@ -108,7 +108,7 @@ export const Main = () => {
                             title={food.title}
                             city={food.city}
                             image={food.image}
-                            rating={ratings[food.id] || "Loading..."} // Use the pre-fetched rating
+                            rating={`${ratings[food.id] || "Loading..."} - User Score`}
                         />
                     ))
                 ) : (
