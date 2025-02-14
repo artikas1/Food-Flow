@@ -56,6 +56,8 @@ export default function ReservationsPage() {
                             title={reservation.food.title}
                             city={reservation.food.city}
                             image={reservation.food.image}
+                            rating={""}
+                            availability={false}
                         />
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" sx={{ fontWeight: "bold", color: "#555" }}>

@@ -38,7 +38,7 @@ export default function DrawerComponent({ open, onClose }: DrawerProps) {
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemButton onClick={() => handleNavigation('/')}>
+                    <ListItemButton onClick={() => handleNavigation('/profile')}>
                         <ListItemText primary="My listings" />
                     </ListItemButton>
                 </ListItem>
