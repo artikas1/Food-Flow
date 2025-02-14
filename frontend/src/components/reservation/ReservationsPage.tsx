@@ -37,7 +37,7 @@ export default function ReservationsPage() {
 
     return (
         <Box className="p-6 max-w-4xl mx-auto">
-            <Typography variant="h4" className="mb-6 text-center font-semibold">
+            <Typography variant="h4" className="mb-6 text-center font-semibold" marginBottom="12px">
                 My Reservations
             </Typography>
 
@@ -56,7 +56,6 @@ export default function ReservationsPage() {
                             title={reservation.food.title}
                             city={reservation.food.city}
                             image={reservation.food.image}
-                            rating="4.2/5 (14 reviews)"
                         />
                         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                             <Typography variant="body2" sx={{ fontWeight: "bold", color: "#555" }}>
