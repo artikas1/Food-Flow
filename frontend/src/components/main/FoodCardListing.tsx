@@ -84,7 +84,7 @@ export default function FoodCardListing({ id, title, city, image, rating, availa
 
                 <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                     <Avatar
-                        alt="Remy Sharp"
+                        alt="U"
                         src="/static/images/avatar/2.jpg"
                         sx={{ width: 38, height: 38, marginLeft: 'auto' }}
                     />

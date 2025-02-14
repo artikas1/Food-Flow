@@ -79,42 +79,45 @@ const FoodDetailsPage = () => {
         : "N/A";
 
     return (
-        <div className="mt-4 px-6 max-w-2xl">
-            <h1 className="text-2xl font-bold mb-2">{food.title}</h1>
-            <img
-                src={`data:image/jpeg;base64,${food.image}`}
-                alt={food.title}
-                className="w-64 h-64 object-cover rounded-lg mb-4"
-            />
-            <div style={{paddingBottom:"4px", cursor: "pointer"}} onClick={handleAvatarClick}>
-                <Avatar>R</Avatar>
+        <div  className="flex justify-center">
+            <div className="mt-4 px-6 max-w-md border border-gray-300 rounded-lg shadow-md p-4">
+                <h1 className="text-2xl font-bold mb-2">{food.title}</h1>
+                <img
+                    src={`data:image/jpeg;base64,${food.image}`}
+                    alt={food.title}
+                    className="w-64 h-64 object-cover rounded-lg mb-4"
+                />
+                <div style={{paddingBottom:"4px", cursor: "pointer", display: "flex", alignItems: "center"}} onClick={handleAvatarClick}>
+                    <Avatar>U</Avatar>
+                    <p style={{marginLeft: "6px"}}>User</p>
+                </div>
+                <p className="text-lg mb-2">{food.description}</p>
+                <p className="text-gray-600">Category: {food.category}</p>
+                <p className="text-gray-600">City: {food.city}</p>
+                <p className="text-gray-600">Available: {food.available ? "Yes" : "No"}</p>
+                <p className="text-gray-600">Expiry Date: {formattedExpiryDate}</p>
+
+                {reserveError && <p className="text-red-500 mt-2">{reserveError}</p>}
+
+                {food.available && !isReservedByMe ? (
+                    <button
+                        onClick={handleReserve}
+                        disabled={reserving}
+                        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
+                    >
+                        {reserving ? "Reserving..." : "Reserve"}
+                    </button>
+                ) : (
+                    <button
+                        onClick={handleCancelReservation}
+                        className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                    >
+                        Cancel Reservation
+                    </button>
+                )}
+
+
             </div>
-            <p className="text-lg mb-2">{food.description}</p>
-            <p className="text-gray-600">Category: {food.category}</p>
-            <p className="text-gray-600">City: {food.city}</p>
-            <p className="text-gray-600">Available: {food.available ? "Yes" : "No"}</p>
-            <p className="text-gray-600">Expiry Date: {formattedExpiryDate}</p>
-
-            {reserveError && <p className="text-red-500 mt-2">{reserveError}</p>}
-
-            {food.available && !isReservedByMe ? (
-                <button
-                    onClick={handleReserve}
-                    disabled={reserving}
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
-                >
-                    {reserving ? "Reserving..." : "Reserve"}
-                </button>
-            ) : (
-                <button
-                    onClick={handleCancelReservation}
-                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-                >
-                    Cancel Reservation
-                </button>
-            )}
-
-
         </div>
     );
 };

@@ -14,7 +14,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import '@fontsource/caveat';
 
-const settings = ['Profile', 'Account', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 interface HeaderProps {
     onMenuIconClick: () => void;
@@ -35,6 +35,8 @@ function ResponsiveAppBar({ onMenuIconClick }: HeaderProps) {
     const handleMenuItemClick = (setting: string) => {
         if (setting === 'Profile') {
             navigate('/profile');
+        } else if (setting === 'Logout') {
+            navigate('/login');
         }
         handleCloseUserMenu();
     };
